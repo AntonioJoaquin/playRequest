@@ -6,6 +6,6 @@ class PlayRequestUseCase(
     private val requestRepository: RequestRepository
 ) {
 
-     fun playRequest(url: String) = requestRepository.playRequest(url)
+    fun playRequest(url: String) = requestRepository.playRequest(url)
 
 }

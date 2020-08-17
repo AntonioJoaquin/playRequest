@@ -3,17 +3,15 @@ package com.arjhox.develop.data.datasources
 import android.content.Context
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
+import com.arjhox.develop.data.services.CustomRequestResponseRequest
 import com.arjhox.develop.data.services.VolleyRequestQueue
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParser
+import com.arjhox.develop.domain.models.RequestResponse
 import io.reactivex.Single
-import org.json.JSONObject
 
 
 interface RequestRemoteDataSource {
 
-    fun playRequest(url: String): Single<String>
+    fun playRequest(url: String): Single<RequestResponse>
 
 }
 
@@ -22,28 +20,18 @@ class RequestRemoteDataSourceImpl(
     private val context: Context
 ): RequestRemoteDataSource {
 
-    override fun playRequest(url: String): Single<String> {
+    override fun playRequest(url: String): Single<RequestResponse> {
         return Single.create { emitter ->
-            val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
+            val jsonObjectRequest = CustomRequestResponseRequest(Request.Method.GET, url, null,
                 Response.Listener {
-                    val prettyString = convertJsonToPrettyString(it)
-
-                    emitter.onSuccess(prettyString)
+                    emitter.onSuccess(it)
                 },
                 Response.ErrorListener {
-                    // TODO: Handle Error
+                    emitter.onError(it)
                 }
             )
 
             VolleyRequestQueue.getInstance(context).addToRequestQueue(jsonObjectRequest)
         }
-    }
-
-
-    private fun convertJsonToPrettyString(jsonObject: JSONObject): String {
-        val gSon = GsonBuilder().setPrettyPrinting().create()
-        val jsonElement = JsonParser().parse(jsonObject.toString())
-
-        return gSon.toJson(jsonElement)
     }
 }

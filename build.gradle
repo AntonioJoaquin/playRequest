@@ -29,6 +29,7 @@ allprojects {
 
         lifecycle_version = "2.2.0"
         nav_version = "2.3.0"
+        rxAndroid_version = "2.1.1"
 
         appLibs = [
                 nav_fragment: "androidx.navigation:navigation-fragment-ktx:$nav_version",
@@ -42,8 +43,8 @@ allprojects {
                 lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
                 lifecycle_viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
 
-                rxjava: "io.reactivex.rxjava2:rxjava:$rxJava_version"
-
+                rxjava: "io.reactivex.rxjava2:rxjava:$rxJava_version",
+                rxAndroid: "io.reactivex.rxjava2:rxandroid:$rxAndroid_version"
         ]
 
 
@@ -72,6 +73,13 @@ allprojects {
                 mockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlin_version",
                 mockitoInline: "org.mockito:mockito-inline:$mockitoInline_version",
                 kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
+        ]
+
+
+        archcore_version = "2.0.1"
+
+        androidxTestLibs = [
+                androidArchCore: "androidx.arch.core:core-testing:$archcore_version"
         ]
 
     }

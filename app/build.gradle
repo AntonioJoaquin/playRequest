@@ -45,4 +45,7 @@ dependencies {
 
 
     implementation appLibs.values()
+
+    testImplementation testLibs.values()
+    testImplementation androidxTestLibs.values()
 }

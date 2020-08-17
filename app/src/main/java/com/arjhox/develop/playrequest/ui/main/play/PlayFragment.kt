@@ -26,10 +26,11 @@ class PlayFragment : Fragment() {
             inflater,
             R.layout.play_fragment,
             container,
-            true
+            false
         )
-        binding.apply {
-            lifecycleOwner = this@PlayFragment
+        binding.let {
+            it.lifecycleOwner = this@PlayFragment
+            it.viewModel = this.viewModel
         }
 
         return binding.root
