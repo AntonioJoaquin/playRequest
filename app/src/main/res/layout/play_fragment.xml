@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:srcCompat="@drawable/ic_send"
+            app:srcCompat="@drawable/ic_play"
             android:text="Play Request!"
             android:onClick="@{() -> viewModel.playRequest(viewModel.requestPath)}"
             android:theme="@style/AppTheme"
