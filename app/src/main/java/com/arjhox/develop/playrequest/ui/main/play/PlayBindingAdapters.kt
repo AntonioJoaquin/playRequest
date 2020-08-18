@@ -1,13 +1,24 @@
 package com.arjhox.develop.playrequest.ui.main.play
 
-import android.webkit.WebView
+import android.view.View
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.arjhox.develop.domain.common.LoadingState
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-@BindingAdapter("data")
-fun WebView.setData(data: String?) {
-    data?.let {
-        if (it.isNotEmpty()) {
-            loadData(data, "application/json", "UTF-8")
-        }
+@BindingAdapter("show")
+fun TextView.show(loadingState: LoadingState?) {
+    visibility = when(loadingState) {
+        LoadingState.LOADED -> View.VISIBLE
+        else -> View.GONE
+    }
+}
+
+@BindingAdapter("show")
+fun FloatingActionButton.show(requestPath: String?) {
+    if (requestPath.isNullOrEmpty()) {
+        hide()
+    } else {
+        show()
     }
 }

@@ -41,8 +41,8 @@ class PlayFragment : Fragment() {
 
 
     private fun init() {
-        binding.textInputEditTextRequest.doOnTextChanged { _, _, _, count ->
-            viewModel.setCanShowActionFab(count > 0)
+        binding.textInputEditTextRequestPath.doOnTextChanged { text, _, _, _ ->
+            viewModel.setRequestPath(text.toString())
         }
     }
 

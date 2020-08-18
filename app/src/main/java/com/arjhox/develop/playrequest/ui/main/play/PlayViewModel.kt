@@ -15,6 +15,10 @@ class PlayViewModel(
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
+    private val _requestPath = MutableLiveData<String>()
+    val requestPath: LiveData<String>
+        get() = _requestPath
+
     private val _loading = MutableLiveData<LoadingState>()
     val loading: LiveData<LoadingState>
         get() = _loading
@@ -22,10 +26,6 @@ class PlayViewModel(
     private val _requestResult = MutableLiveData<RequestResponse>()
     val requestResult: LiveData<RequestResponse>
         get() = _requestResult
-
-    private val _canShowActionFab = MutableLiveData<Boolean>()
-    val canShowActionFab: LiveData<Boolean>
-        get() = _canShowActionFab
 
 
     private val disposables = CompositeDisposable()
@@ -38,11 +38,12 @@ class PlayViewModel(
     }
 
 
-    fun playRequest() {
+    // Test url -> "https://jsonplaceholder.typicode.com/users"
+    fun playRequest(requestPath: String) {
         _loading.postValue(LoadingState.LOADING)
 
         disposables.add(
-            playRequestUseCase.playRequest("https://jsonplaceholder.typicode.com/users")
+            playRequestUseCase.playRequest(requestPath)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
@@ -58,7 +59,7 @@ class PlayViewModel(
     }
 
 
-    fun setCanShowActionFab(canShow: Boolean) =
-        this._canShowActionFab.postValue(canShow)
+    fun setRequestPath(newRequestPath: String) =
+        this._requestPath.postValue(newRequestPath)
 
 }

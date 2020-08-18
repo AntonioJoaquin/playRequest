@@ -5,10 +5,12 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
+import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragment
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
 import com.arjhox.develop.playrequest.ui.main.play.playModule
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +29,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class PlayFragmentTest: KoinTest {
 
+    private lateinit var playRequestUseCase: PlayRequestUseCase
     private val viewModel: PlayViewModel by inject()
 
 
@@ -39,6 +42,8 @@ class PlayFragmentTest: KoinTest {
                 modules(playModule)
             }
         }
+
+        playRequestUseCase = mock()
     }
 
 
@@ -46,7 +51,7 @@ class PlayFragmentTest: KoinTest {
     fun `when the fragment is initialized playButton should be hidden`() {
         launchFragmentInContainer<PlayFragment>()
 
-        onView(withId(R.id.floatingActionButtonAction))
+        onView(withId(R.id.floatingActionButtonPlayAction))
             .check(matches(withEffectiveVisibility(Visibility.GONE)))
     }
 
@@ -54,10 +59,10 @@ class PlayFragmentTest: KoinTest {
     fun `when write a request playButton should be shown`() {
         launchFragmentInContainer<PlayFragment>()
 
-        onView(withId(R.id.textInputEditTextRequest))
+        onView(withId(R.id.textInputEditTextRequestPath))
             .perform(setTextInTextView("New Request"))
 
-        onView(withId(R.id.floatingActionButtonAction))
+        onView(withId(R.id.floatingActionButtonPlayAction))
             .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
 
@@ -65,13 +70,12 @@ class PlayFragmentTest: KoinTest {
     fun `when request box is empty playButton should be hidden`() {
         launchFragmentInContainer<PlayFragment>()
 
-        onView(withId(R.id.textInputEditTextRequest))
+        onView(withId(R.id.textInputEditTextRequestPath))
             .perform(setTextInTextView("New request"))
-
-        onView(withId(R.id.textInputEditTextRequest))
+        onView(withId(R.id.textInputEditTextRequestPath))
             .perform(setTextInTextView(""))
 
-        onView(withId(R.id.floatingActionButtonAction))
+        onView(withId(R.id.floatingActionButtonPlayAction))
             .check(matches(withEffectiveVisibility(Visibility.GONE)))
     }
 

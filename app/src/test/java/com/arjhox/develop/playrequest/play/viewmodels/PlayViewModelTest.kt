@@ -50,7 +50,7 @@ class PlayViewModelTest {
         whenever(playRequestUseCase.playRequest(any()))
             .thenReturn(Single.create { it.onSuccess(RequestResponse("", "")) })
 
-        playViewModel.playRequest()
+        playViewModel.playRequest("")
 
         verify(playRequestUseCase).playRequest(any())
     }
@@ -60,7 +60,7 @@ class PlayViewModelTest {
         whenever(playRequestUseCase.playRequest(any()))
             .thenReturn( Single.never() )
 
-        playViewModel.playRequest()
+        playViewModel.playRequest("")
 
         verify(loadingObserver).onChanged(eq(LoadingState.LOADING))
     }
@@ -70,7 +70,7 @@ class PlayViewModelTest {
         whenever(playRequestUseCase.playRequest(any()))
             .thenReturn(Single.create { it.onSuccess(RequestResponse("", "")) })
 
-        playViewModel.playRequest()
+        playViewModel.playRequest("")
 
         verify(loadingObserver).onChanged(eq(LoadingState.LOADED))
     }
@@ -82,7 +82,7 @@ class PlayViewModelTest {
         whenever(playRequestUseCase.playRequest(any()))
             .thenReturn(Single.create { it.onError(throwable) })
 
-        playViewModel.playRequest()
+        playViewModel.playRequest("")
 
         verify(loadingObserver).onChanged(eq(LoadingState.error(throwable.message)))
     }
@@ -94,7 +94,7 @@ class PlayViewModelTest {
         whenever(playRequestUseCase.playRequest(any()))
             .thenReturn(Single.create { it.onSuccess(result) })
 
-        playViewModel.playRequest()
+        playViewModel.playRequest("")
 
         verify(requestResultObserver).onChanged(eq(result))
     }

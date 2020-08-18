@@ -7,6 +7,7 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="com.arjhox.develop.domain.common.LoadingState" />
 
         <variable
             name="viewModel"
@@ -19,7 +20,7 @@
         tools:context=".ui.main.play.PlayFragment">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTextRequest"
+            android:id="@+id/textInputEditTextRequestPath"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -32,27 +33,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <WebView
-            android:id="@+id/webView"
+        <TextView
+            android:id="@+id/textViewRequestResponse"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            data="@{viewModel.requestResult.response}"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{viewModel.requestResult.response}"
+            show="@{viewModel.loading}"
+            app:layout_constraintTop_toBottomOf="@id/textInputEditTextRequestPath"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Request response"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButtonAction"
+            android:id="@+id/floatingActionButtonPlayAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_send"
             android:text="Play Request!"
-            android:onClick="@{() -> viewModel.playRequest()}"
-            android:visibility="@{viewModel.canShowActionFab ? View.VISIBLE : View.GONE}"
-            android:theme="@style/Theme.AppCompat"
+            android:onClick="@{() -> viewModel.playRequest(viewModel.requestPath)}"
+            android:theme="@style/AppTheme"
+            show="@{viewModel.requestPath}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:visibility="gone"/>
