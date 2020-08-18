@@ -23,6 +23,10 @@ class PlayViewModel(
     val requestResult: LiveData<RequestResponse>
         get() = _requestResult
 
+    private val _canShowActionFab = MutableLiveData<Boolean>()
+    val canShowActionFab: LiveData<Boolean>
+        get() = _canShowActionFab
+
 
     private val disposables = CompositeDisposable()
 
@@ -52,5 +56,9 @@ class PlayViewModel(
                 )
         )
     }
+
+
+    fun setCanShowActionFab(canShow: Boolean) =
+        this._canShowActionFab.postValue(canShow)
 
 }
