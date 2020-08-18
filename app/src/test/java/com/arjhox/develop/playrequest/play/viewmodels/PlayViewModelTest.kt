@@ -1,10 +1,11 @@
-package com.arjhox.develop.playrequest.play
+package com.arjhox.develop.playrequest.play.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
+import com.arjhox.develop.playrequest.play.TrampolineSchedulerProvider
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Single
@@ -15,7 +16,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class PlayViewModelTests {
+class PlayViewModelTest {
 
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
