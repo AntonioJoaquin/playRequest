@@ -9,5 +9,5 @@
         android:id="@+id/playFragment"
         android:name="com.arjhox.develop.playrequest.ui.main.play.PlayFragment"
         android:label="play_fragment"
-        tools:layout="@layout/play_fragment" />
+        tools:layout="@layout/fragment_play" />
 </navigation>
