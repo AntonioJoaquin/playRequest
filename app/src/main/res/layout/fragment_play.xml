@@ -10,6 +10,10 @@
         <import type="com.arjhox.develop.domain.common.LoadingState" />
 
         <variable
+            name="headerAdapter"
+            type="com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter" />
+
+        <variable
             name="viewModel"
             type="com.arjhox.develop.playrequest.ui.main.play.PlayViewModel" />
     </data>
@@ -67,6 +71,9 @@
             android:layout_height="250dp"
             android:layout_margin="8dp"
             android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            bindAdapter="@{headerAdapter}"
+            show="@{viewModel.headers}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/buttonAddHeader"

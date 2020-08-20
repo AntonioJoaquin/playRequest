@@ -33,6 +33,11 @@ class PlayViewModel(
     val loading: LiveData<LoadingState>
         get() = _loading
 
+    private val _headers = MutableLiveData<List<Header>>()
+    val headers: LiveData<List<Header>>
+        get() = _headers
+    private val headersList = arrayListOf<Header>()
+
     private val _requestResult = MutableLiveData<RequestResponse>()
     val requestResult: LiveData<RequestResponse>
         get() = _requestResult
@@ -71,6 +76,11 @@ class PlayViewModel(
     fun openHeaderDialogClicked(header: Header = Header()) =
         _openHeaderDialog.postValue(Event(header))
 
+
+    fun insertNewHeaderToRequest(header: Header) {
+        headersList.add(header)
+        _headers.postValue(headersList)
+    }
 
     fun setRequestPath(newRequestPath: String) =
         this._requestPath.postValue(newRequestPath)

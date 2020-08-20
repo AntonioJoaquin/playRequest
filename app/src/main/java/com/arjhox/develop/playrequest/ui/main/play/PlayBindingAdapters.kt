@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.RecyclerView
 import com.arjhox.develop.domain.common.LoadingState
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -25,6 +26,23 @@ fun FloatingActionButton.show(requestPath: String?) {
         hide()
     } else {
         show()
+    }
+}
+
+@BindingAdapter("show")
+fun RecyclerView.show(items: List<*>?) {
+    visibility = if (items.isNullOrEmpty()) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
+}
+
+@BindingAdapter("bindAdapter")
+fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
+    this.run {
+        this.setHasFixedSize(true)
+        this.adapter = adapter
     }
 }
 
