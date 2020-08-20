@@ -82,6 +82,7 @@ allprojects {
         appTestLibs = [
                 androidArchCore: "androidx.arch.core:core-testing:$archcore_version",
                 robolectric: "org.robolectric:robolectric:$robolectric_version",
+                nav_test: "androidx.navigation:navigation-testing:$nav_version"
         ]
 
     }

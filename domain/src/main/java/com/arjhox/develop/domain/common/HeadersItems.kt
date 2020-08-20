@@ -1,6 +1,6 @@
 package com.arjhox.develop.domain.common
 
-val headers = listOf(
+val headersItems = listOf(
     "Content-Type",
     "Authorization",
     "Accept-Charset"

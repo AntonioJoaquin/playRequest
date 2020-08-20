@@ -10,4 +10,10 @@
         android:name="com.arjhox.develop.playrequest.ui.main.play.PlayFragment"
         android:label="play_fragment"
         tools:layout="@layout/fragment_play" />
+
+    <dialog
+        android:id="@+id/headerDialog"
+        android:name="com.arjhox.develop.playrequest.ui.main.play.header.HeaderDialog"
+        android:label="header_dialog"
+        tools:layout="@layout/dialog_header"/>
 </navigation>

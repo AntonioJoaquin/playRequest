@@ -1,16 +1,26 @@
-package com.arjhox.develop.playrequest.play.ui
+package com.arjhox.develop.playrequest.play.ui.play
 
+import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
+import com.arjhox.develop.playrequest.play.ui.setTextInTextView
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragment
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
+import com.arjhox.develop.playrequest.ui.main.play.header.HeaderDialog
 import com.arjhox.develop.playrequest.ui.main.play.playModule
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -29,8 +39,10 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class PlayFragmentTest: KoinTest {
 
-    private lateinit var playRequestUseCase: PlayRequestUseCase
     private val viewModel: PlayViewModel by inject()
+
+    private lateinit var playRequestUseCase: PlayRequestUseCase
+    private lateinit var navController: NavController
 
 
     @Before
@@ -44,21 +56,28 @@ class PlayFragmentTest: KoinTest {
         }
 
         playRequestUseCase = mock()
+        navController = mock()
+
+        launchFragmentInContainer {
+            PlayFragment().also {
+                it.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+                    if (viewLifecycleOwner != null) {
+                        Navigation.setViewNavController(it.requireView(), navController)
+                    }
+                }
+            }
+        }
     }
 
 
     @Test
     fun `when the fragment is initialized playButton should be hidden`() {
-        launchFragmentInContainer<PlayFragment>()
-
         onView(withId(R.id.floatingActionButtonPlayAction))
             .check(matches(withEffectiveVisibility(Visibility.GONE)))
     }
 
     @Test
     fun `when write a request playButton should be shown`() {
-        launchFragmentInContainer<PlayFragment>()
-
         onView(withId(R.id.textInputEditTextRequestPath))
             .perform(setTextInTextView("New Request"))
 
@@ -68,8 +87,6 @@ class PlayFragmentTest: KoinTest {
 
     @Test
     fun `when request box is empty playButton should be hidden`() {
-        launchFragmentInContainer<PlayFragment>()
-
         onView(withId(R.id.textInputEditTextRequestPath))
             .perform(setTextInTextView("New request"))
         onView(withId(R.id.textInputEditTextRequestPath))
@@ -77,6 +94,13 @@ class PlayFragmentTest: KoinTest {
 
         onView(withId(R.id.floatingActionButtonPlayAction))
             .check(matches(withEffectiveVisibility(Visibility.GONE)))
+    }
+
+    @Test
+    fun `when click on ADD_HEADERS should open header dialog`() {
+        onView(withId(R.id.buttonAddHeader))
+            .perform(ViewActions.click())
+        verify(navController).navigate(R.id.headerDialog)
     }
 
 

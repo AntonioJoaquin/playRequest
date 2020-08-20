@@ -1,5 +1,6 @@
 package com.arjhox.develop.playrequest.ui.main.play
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,15 @@ class PlayViewModel(
     private val playRequestUseCase: PlayRequestUseCase,
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
+
+    // region Navigation Variables
+
+    private val _openHeaderDialog = MutableLiveData<Lifecycle.Event>()
+    val openHeaderDialog: LiveData<Lifecycle.Event>
+        get() = _openHeaderDialog
+
+    // endregion
+
 
     private val _requestPath = MutableLiveData<String>()
     val requestPath: LiveData<String>
