@@ -14,7 +14,9 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
+import com.arjhox.develop.playrequest.ui.common.EventObserver
 import com.arjhox.develop.playrequest.ui.common.Header
+import com.arjhox.develop.playrequest.ui.common.headerKey
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayFragment : Fragment() {
@@ -51,20 +53,7 @@ class PlayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController = view.findNavController()
-        val navBackStackEntry: NavBackStackEntry? = navController.getBackStackEntry(R.id.playFragment)
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME
-                &&
-                navBackStackEntry?.savedStateHandle!!.contains("header")
-            ) {
-                headerFromDialog = navBackStackEntry.savedStateHandle.get<Header>("header")
-                binding.textViewRequestResponse.visibility = View.VISIBLE
-                binding.textViewRequestResponse.text = headerFromDialog.toString()
-            }
-        }
-
-        navBackStackEntry?.lifecycle?.addObserver(observer)
+        initNavigation(view)
     }
 
 
@@ -72,8 +61,29 @@ class PlayFragment : Fragment() {
         binding.textInputEditTextRequestPath.doOnTextChanged { text, _, _, _ ->
             viewModel.setRequestPath(text.toString())
         }
+        binding.buttonAddHeader.setOnClickListener { viewModel.openHeaderDialogClicked() }
 
-        binding.buttonAddHeader.setOnClickListener { navController.navigate(R.id.headerDialog) }
+        viewModel.openHeaderDialog.observe(viewLifecycleOwner, EventObserver {
+            val action = PlayFragmentDirections.openHeaderDialogAction(it)
+            navController.navigate(action)
+        })
+    }
+
+    private fun initNavigation(view: View) {
+        navController = view.findNavController()
+
+        val navBackStackEntry: NavBackStackEntry? = navController.getBackStackEntry(R.id.playFragment)
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry?.savedStateHandle!!.contains("header")) {
+                headerFromDialog = navBackStackEntry.savedStateHandle.get<Header>(headerKey)
+
+                // TODO: Change lines below to update header recyclerview items
+                binding.textViewRequestResponse.visibility = View.VISIBLE
+                binding.textViewRequestResponse.text = headerFromDialog.toString()
+            }
+        }
+
+        navBackStackEntry?.lifecycle?.addObserver(observer)
     }
 
 }

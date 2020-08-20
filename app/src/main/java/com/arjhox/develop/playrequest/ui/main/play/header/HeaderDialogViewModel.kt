@@ -10,8 +10,6 @@ import com.arjhox.develop.playrequest.ui.common.Header
 
 class HeaderDialogViewModel: ViewModel() {
 
-    val header = Header()
-
     private val _headers = MutableLiveData<List<String>>()
     val headers: LiveData<List<String>>
         get() = _headers
@@ -19,10 +17,19 @@ class HeaderDialogViewModel: ViewModel() {
     val headerKeySelectedObserver = ObservableField<String>()
     val headerValueEnterObserver = ObservableField<String>()
 
+    lateinit var header: Header
+        private set
 
-    fun init() {
+
+    fun init(initHeader: Header) {
         _headers.postValue(headersItems)
+        header = initHeader
 
+        initObservers()
+    }
+
+
+    private fun initObservers() {
         headerKeySelectedObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {

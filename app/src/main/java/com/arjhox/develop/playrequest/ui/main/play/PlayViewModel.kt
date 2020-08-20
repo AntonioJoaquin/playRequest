@@ -1,15 +1,15 @@
 package com.arjhox.develop.playrequest.ui.main.play
 
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
+import com.arjhox.develop.playrequest.ui.common.Event
+import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.common.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableSingleObserver
 
 class PlayViewModel(
     private val playRequestUseCase: PlayRequestUseCase,
@@ -18,8 +18,8 @@ class PlayViewModel(
 
     // region Navigation Variables
 
-    private val _openHeaderDialog = MutableLiveData<Lifecycle.Event>()
-    val openHeaderDialog: LiveData<Lifecycle.Event>
+    private val _openHeaderDialog = MutableLiveData<Event<Header>>()
+    val openHeaderDialog: LiveData<Event<Header>>
         get() = _openHeaderDialog
 
     // endregion
@@ -67,6 +67,9 @@ class PlayViewModel(
                 )
         )
     }
+
+    fun openHeaderDialogClicked(header: Header = Header()) =
+        _openHeaderDialog.postValue(Event(header))
 
 
     fun setRequestPath(newRequestPath: String) =
