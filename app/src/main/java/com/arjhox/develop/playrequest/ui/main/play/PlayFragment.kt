@@ -9,16 +9,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.Observer
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
-import com.arjhox.develop.playrequest.ui.common.EventObserver
-import com.arjhox.develop.playrequest.ui.common.Header
-import com.arjhox.develop.playrequest.ui.common.headerKey
+import com.arjhox.develop.playrequest.ui.common.*
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
+import com.arjhox.develop.playrequest.ui.main.play.header.HeaderListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayFragment : Fragment() {
@@ -28,9 +26,16 @@ class PlayFragment : Fragment() {
     private lateinit var binding: FragmentPlayBinding
 
     private lateinit var navController: NavController
-    private var headerFromDialog: Header? = null
+    private var headerModelFromDialog: HeaderModel? = null
 
-    private val headerAdapter = HeaderAdapter()
+    private val headerAdapter = HeaderAdapter(
+        HeaderListener(
+            clickListener = { header, position ->
+                viewModel.openHeaderDialogClicked(HeaderItemList(header.key, header.value, position))
+            },
+            deleteListener = { viewModel.deleteHeaderFromRequest(it) }
+        )
+    )
 
 
     override fun onCreateView(
@@ -77,10 +82,6 @@ class PlayFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.headers.observe(viewLifecycleOwner, Observer {
-            it.let(headerAdapter::submitList)
-        })
-
         viewModel.openHeaderDialog.observe(viewLifecycleOwner, EventObserver {
             val action = PlayFragmentDirections.openHeaderDialogAction(it)
             navController.navigate(action)
@@ -92,10 +93,14 @@ class PlayFragment : Fragment() {
 
         val navBackStackEntry: NavBackStackEntry? = navController.getBackStackEntry(R.id.playFragment)
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry?.savedStateHandle!!.contains("header")) {
-                headerFromDialog = navBackStackEntry.savedStateHandle.get<Header>(headerKey)
-                headerFromDialog?.let {
-                    viewModel.insertNewHeaderToRequest(it)
+            if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry?.savedStateHandle!!.contains(headerKey)) {
+                headerModelFromDialog = navBackStackEntry.savedStateHandle.get<Header>(headerKey)
+                headerModelFromDialog?.let {
+                    if (headerModelFromDialog is Header) {
+                        viewModel.insertNewHeaderToRequest(it as Header)
+                    } else if (it is HeaderItemList) {
+                        viewModel.updateHeaderToRequest(it)
+                    }
                 }
 
                 navBackStackEntry.savedStateHandle.remove<Header>(headerKey)

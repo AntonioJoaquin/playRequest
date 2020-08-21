@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
-import com.arjhox.develop.playrequest.ui.common.Event
-import com.arjhox.develop.playrequest.ui.common.Header
-import com.arjhox.develop.playrequest.ui.common.SchedulerProvider
+import com.arjhox.develop.playrequest.ui.common.*
 import io.reactivex.disposables.CompositeDisposable
 
 class PlayViewModel(
@@ -18,8 +16,8 @@ class PlayViewModel(
 
     // region Navigation Variables
 
-    private val _openHeaderDialog = MutableLiveData<Event<Header>>()
-    val openHeaderDialog: LiveData<Event<Header>>
+    private val _openHeaderDialog = MutableLiveData<Event<HeaderModel>>()
+    val openHeaderDialog: LiveData<Event<HeaderModel>>
         get() = _openHeaderDialog
 
     // endregion
@@ -73,16 +71,34 @@ class PlayViewModel(
         )
     }
 
-    fun openHeaderDialogClicked(header: Header = Header()) =
-        _openHeaderDialog.postValue(Event(header))
+    fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
+        _openHeaderDialog.postValue(Event(headerModel))
 
-
-    fun insertNewHeaderToRequest(header: Header) {
-        headersList.add(header)
-        _headers.postValue(headersList)
-    }
 
     fun setRequestPath(newRequestPath: String) =
         this._requestPath.postValue(newRequestPath)
+
+
+    // region HeaderAdapter
+
+    fun insertNewHeaderToRequest(header: Header) {
+        // TODO: return if header has been added to list: if it is false must show a message
+        if (!headersList.contains(header)) {
+            headersList.add(header)
+            _headers.postValue(headersList)
+        }
+    }
+
+    fun updateHeaderToRequest(headerItemList: HeaderItemList) {
+        headersList[headerItemList.position] = Header(headerItemList.key, headerItemList.value)
+        _headers.postValue(headersList)
+    }
+
+    fun deleteHeaderFromRequest(header: Header) {
+        headersList.remove(header)
+        _headers.postValue(headersList)
+    }
+
+    // endregion
 
 }

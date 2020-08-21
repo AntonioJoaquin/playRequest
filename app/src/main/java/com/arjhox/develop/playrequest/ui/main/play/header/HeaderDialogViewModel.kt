@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.headersItems
 import com.arjhox.develop.playrequest.ui.common.Header
+import com.arjhox.develop.playrequest.ui.common.HeaderModel
 
 class HeaderDialogViewModel: ViewModel() {
 
@@ -17,13 +18,16 @@ class HeaderDialogViewModel: ViewModel() {
     val headerKeySelectedObserver = ObservableField<String>()
     val headerValueEnterObserver = ObservableField<String>()
 
-    lateinit var header: Header
-        private set
+    private lateinit var header: HeaderModel
+    private lateinit var key: String
+    private lateinit var value: String
 
 
-    fun init(initHeader: Header) {
+    fun init(initHeader: HeaderModel) {
         _headers.postValue(headersItems)
         header = initHeader
+        key = header.key
+        value = header.value
 
         initObservers()
     }
@@ -33,7 +37,7 @@ class HeaderDialogViewModel: ViewModel() {
         headerKeySelectedObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                    header.key = this@apply.get().toString()
+                    key = this@apply.get().toString()
                 }
             })
         }
@@ -41,10 +45,18 @@ class HeaderDialogViewModel: ViewModel() {
         headerValueEnterObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                    header.value = this@apply.get().toString()
+                    value = this@apply.get().toString()
                 }
             })
         }
+    }
+
+
+    fun getHeaderModel(): HeaderModel {
+        header.key = key
+        header.value = value
+
+        return header
     }
 
 }

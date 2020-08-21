@@ -29,6 +29,6 @@
 
         <argument
             android:name="header"
-            app:argType="com.arjhox.develop.playrequest.ui.common.Header" />
+            app:argType="com.arjhox.develop.playrequest.ui.common.HeaderModel" />
     </dialog>
 </navigation>

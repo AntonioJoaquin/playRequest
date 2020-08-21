@@ -50,7 +50,7 @@ class HeaderDialog: DialogFragment() {
         binding.buttonOk.setOnClickListener {
             findNavController().previousBackStackEntry?.savedStateHandle?.set(
                 headerKey,
-                viewModel.header
+                viewModel.getHeaderModel()
             )
 
             dismissAllowingStateLoss()

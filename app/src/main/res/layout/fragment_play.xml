@@ -73,6 +73,7 @@
             android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bindAdapter="@{headerAdapter}"
+            items="@{viewModel.headers}"
             show="@{viewModel.headers}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
