@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.DialogHeaderBinding
+import com.arjhox.develop.playrequest.ui.common.EventObserver
 import com.arjhox.develop.playrequest.ui.common.headerKey
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,10 +28,6 @@ class HeaderDialog: DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_header, null, false)
-        binding.let {
-            it.lifecycleOwner = this@HeaderDialog
-            it.viewModel = viewModel
-        }
 
         init()
 
@@ -47,16 +44,25 @@ class HeaderDialog: DialogFragment() {
 
 
     private fun init() {
-        binding.buttonOk.setOnClickListener {
-            findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                headerKey,
-                viewModel.getHeaderModel()
-            )
-
-            dismissAllowingStateLoss()
+        binding.let {
+            it.lifecycleOwner = this@HeaderDialog
+            it.viewModel = viewModel
         }
 
         viewModel.init(args.header)
+
+        initNavigationObserver()
+    }
+
+    private fun initNavigationObserver() {
+        viewModel.closeDialogWithConfirmationEvent.observe(this@HeaderDialog, EventObserver {
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                headerKey,
+                it
+            )
+
+            dismissAllowingStateLoss()
+        })
     }
 
 }

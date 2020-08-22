@@ -16,9 +16,9 @@ class PlayViewModel(
 
     // region Navigation Variables
 
-    private val _openHeaderDialog = MutableLiveData<Event<HeaderModel>>()
-    val openHeaderDialog: LiveData<Event<HeaderModel>>
-        get() = _openHeaderDialog
+    private val _openHeaderDialogEvent = MutableLiveData<Event<HeaderModel>>()
+    val openHeaderDialogEvent: LiveData<Event<HeaderModel>>
+        get() = _openHeaderDialogEvent
 
     // endregion
 
@@ -72,7 +72,7 @@ class PlayViewModel(
     }
 
     fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
-        _openHeaderDialog.postValue(Event(headerModel))
+        _openHeaderDialogEvent.postValue(Event(headerModel))
 
 
     fun setRequestPath(newRequestPath: String) =

@@ -70,7 +70,7 @@ class PlayFragment : Fragment() {
         }
 
         initListeners()
-        initObservers()
+        initNavigationObservers()
     }
 
     private fun initListeners() {
@@ -81,8 +81,8 @@ class PlayFragment : Fragment() {
         binding.buttonAddHeader.setOnClickListener { viewModel.openHeaderDialogClicked() }
     }
 
-    private fun initObservers() {
-        viewModel.openHeaderDialog.observe(viewLifecycleOwner, EventObserver {
+    private fun initNavigationObservers() {
+        viewModel.openHeaderDialogEvent.observe(viewLifecycleOwner, EventObserver {
             val action = PlayFragmentDirections.openHeaderDialogAction(it)
             navController.navigate(action)
         })

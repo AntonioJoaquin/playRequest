@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.headersItems
-import com.arjhox.develop.playrequest.ui.common.Header
+import com.arjhox.develop.playrequest.ui.common.Event
 import com.arjhox.develop.playrequest.ui.common.HeaderModel
 
 class HeaderDialogViewModel: ViewModel() {
@@ -18,22 +18,30 @@ class HeaderDialogViewModel: ViewModel() {
     val headerKeySelectedObserver = ObservableField<String>()
     val headerValueEnterObserver = ObservableField<String>()
 
-    private lateinit var header: HeaderModel
+    lateinit var headerModel: HeaderModel
+        private set
     private lateinit var key: String
-    private lateinit var value: String
+    private val _value = MutableLiveData<String>("")
+    val value: LiveData<String>
+        get() = _value
+
+    private val _closeDialogWithConfirmationEvent = MutableLiveData<Event<HeaderModel>>()
+    val closeDialogWithConfirmationEvent: LiveData<Event<HeaderModel>>
+        get() = _closeDialogWithConfirmationEvent
 
 
     fun init(initHeader: HeaderModel) {
         _headers.postValue(headersItems)
-        header = initHeader
-        key = header.key
-        value = header.value
 
-        initObservers()
+        headerModel = initHeader
+        key = headerModel.key
+        _value.postValue(headerModel.value)
+
+        initObserversField()
     }
 
 
-    private fun initObservers() {
+    private fun initObserversField() {
         headerKeySelectedObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -45,18 +53,22 @@ class HeaderDialogViewModel: ViewModel() {
         headerValueEnterObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                    value = this@apply.get().toString()
+                    _value.postValue(this@apply.get().toString())
                 }
             })
         }
     }
 
 
-    fun getHeaderModel(): HeaderModel {
-        header.key = key
-        header.value = value
+    fun onConfirmHeader(currentValue: String?) {
+        if (currentValue.isNullOrEmpty()) {
+            _value.postValue(null)
+        } else {
+            headerModel.key = key
+            headerModel.value = currentValue
 
-        return header
+            _closeDialogWithConfirmationEvent.postValue(Event(headerModel))
+        }
     }
 
 }

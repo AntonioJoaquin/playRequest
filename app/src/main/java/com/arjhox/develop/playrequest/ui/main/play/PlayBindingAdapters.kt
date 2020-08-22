@@ -13,6 +13,7 @@ import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter("show")
 fun TextView.show(loadingState: LoadingState?) {
@@ -65,6 +66,15 @@ fun AppCompatSpinner.itemSelected(result: ObservableField<String>) {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             result.set(parent?.getItemAtPosition(position) as String)
         }
+    }
+}
+
+@BindingAdapter("showInputError")
+fun TextInputLayout.showInputError(value: String?) {
+    error = if (value==null) {
+        "Header value is necessary"
+    } else {
+        null
     }
 }
 

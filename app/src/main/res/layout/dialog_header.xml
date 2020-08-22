@@ -25,17 +25,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTextHeaderValue"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutHeaderValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:hint="New header value"
-            android:text="@{viewModel.header.value}"
-            enteredText="@{viewModel.headerValueEnterObserver}"
+            android:hint="Header value"
+            app:showInputError="@{viewModel.value}"
             app:layout_constraintTop_toBottomOf="@id/appCompatSpinnerHeaderKey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextHeaderValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.headerModel.value}"
+                app:enteredText="@{viewModel.headerValueEnterObserver}" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/buttonOk"
@@ -45,7 +52,8 @@
             android:text="OK"
             android:textColor="@android:color/white"
             android:background="@color/colorAccent"
-            app:layout_constraintTop_toBottomOf="@id/textInputEditTextHeaderValue"
+            android:onClick="@{() -> viewModel.onConfirmHeader(viewModel.value)}"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutHeaderValue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
