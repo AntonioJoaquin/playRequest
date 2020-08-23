@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
+import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.common.*
 import io.reactivex.disposables.CompositeDisposable
 
@@ -39,6 +40,11 @@ class PlayViewModel(
     private val _requestResult = MutableLiveData<RequestResponse>()
     val requestResult: LiveData<RequestResponse>
         get() = _requestResult
+
+
+    private val _showToastMessageEvent = MutableLiveData<Event<Int>>()
+    val showToastMessageEvent: LiveData<Event<Int>>
+        get() = _showToastMessageEvent
 
 
     private val disposables = CompositeDisposable()
@@ -86,6 +92,8 @@ class PlayViewModel(
         if (!headersList.contains(header)) {
             headersList.add(header)
             _headers.postValue(headersList)
+        } else {
+            _showToastMessageEvent.postValue(Event(R.string.element_already_exists))
         }
     }
 

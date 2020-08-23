@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -70,7 +71,7 @@ class PlayFragment : Fragment() {
         }
 
         initListeners()
-        initNavigationObservers()
+        initObservers()
     }
 
     private fun initListeners() {
@@ -79,6 +80,14 @@ class PlayFragment : Fragment() {
         }
 
         binding.buttonAddHeader.setOnClickListener { viewModel.openHeaderDialogClicked() }
+    }
+
+    private fun initObservers() {
+        viewModel.showToastMessageEvent.observe(viewLifecycleOwner, EventObserver {
+            context?.showToast(resources.getString(it))
+        })
+
+        initNavigationObservers()
     }
 
     private fun initNavigationObservers() {
