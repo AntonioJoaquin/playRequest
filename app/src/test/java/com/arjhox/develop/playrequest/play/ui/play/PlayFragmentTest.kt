@@ -1,23 +1,20 @@
 package com.arjhox.develop.playrequest.play.ui.play
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.play.ui.setTextInTextView
+import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragment
+import com.arjhox.develop.playrequest.ui.main.play.PlayFragmentDirections
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
-import com.arjhox.develop.playrequest.ui.main.play.header.HeaderDialog
 import com.arjhox.develop.playrequest.ui.main.play.playModule
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -27,13 +24,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.KoinContextHandler.getOrNull
+import org.koin.core.context.KoinContextHandler
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+
 
 @Config(sdk = [Config.OLDEST_SDK])
 @RunWith(RobolectricTestRunner::class)
@@ -47,7 +45,7 @@ class PlayFragmentTest: KoinTest {
 
     @Before
     fun setUp() {
-        if (getOrNull() == null) {
+        if (KoinContextHandler.getOrNull() == null) {
             startKoin {
                 androidLogger()
                 androidContext(InstrumentationRegistry.getInstrumentation().context)
@@ -98,9 +96,11 @@ class PlayFragmentTest: KoinTest {
 
     @Test
     fun `when click on ADD_HEADERS should open header dialog`() {
+        val action = PlayFragmentDirections.openHeaderDialogAction(Header())
+
         onView(withId(R.id.buttonAddHeader))
             .perform(ViewActions.click())
-        verify(navController).navigate(R.id.headerDialog)
+        verify(navController).navigate(action)
     }
 
 
