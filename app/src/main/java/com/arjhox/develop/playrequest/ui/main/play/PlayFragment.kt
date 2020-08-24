@@ -66,8 +66,8 @@ class PlayFragment : Fragment() {
     private fun init() {
         binding.let {
             it.lifecycleOwner = this@PlayFragment
-            it.headerAdapter = this.headerAdapter
             it.viewModel = this.viewModel
+            it.layoutHeaders.headerAdapter = this.headerAdapter
         }
 
         initListeners()
@@ -79,7 +79,7 @@ class PlayFragment : Fragment() {
             viewModel.setRequestPath(text.toString())
         }
 
-        binding.buttonAddHeader.setOnClickListener { viewModel.openHeaderDialogClicked() }
+        binding.layoutHeaders.buttonAddHeader.setOnClickListener { viewModel.openHeaderDialogClicked() }
     }
 
     private fun initObservers() {
