@@ -23,6 +23,18 @@ class PlayViewModel(
 
     // endregion
 
+    // region Show Variables
+
+    private val _showHeadersList = MutableLiveData<Boolean>()
+    val showHeadersList: LiveData<Boolean>
+        get() = _showHeadersList
+
+    private val _showToastMessageEvent = MutableLiveData<Event<Int>>()
+    val showToastMessageEvent: LiveData<Event<Int>>
+        get() = _showToastMessageEvent
+
+    // endregion
+
 
     private val _requestPath = MutableLiveData<String>()
     val requestPath: LiveData<String>
@@ -42,12 +54,14 @@ class PlayViewModel(
         get() = _requestResult
 
 
-    private val _showToastMessageEvent = MutableLiveData<Event<Int>>()
-    val showToastMessageEvent: LiveData<Event<Int>>
-        get() = _showToastMessageEvent
-
-
     private val disposables = CompositeDisposable()
+
+
+    init {
+
+        _showHeadersList.postValue(true)
+
+    }
 
 
     override fun onCleared() {
@@ -88,7 +102,6 @@ class PlayViewModel(
     // region HeaderAdapter
 
     fun insertNewHeaderToRequest(header: Header) {
-        // TODO: return if header has been added to list: if it is false must show a message
         if (!headersList.contains(header)) {
             headersList.add(header)
             _headers.postValue(headersList)
@@ -105,6 +118,12 @@ class PlayViewModel(
     fun deleteHeaderFromRequest(header: Header) {
         headersList.remove(header)
         _headers.postValue(headersList)
+    }
+
+    fun setHeadersListVisible(canDisplay: Boolean) {
+        if (headersList.isNotEmpty()) {
+            _showHeadersList.postValue(!canDisplay)
+        }
     }
 
     // endregion

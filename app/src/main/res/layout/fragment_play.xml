@@ -56,17 +56,37 @@
 
         <Button
             android:id="@+id/buttonAddHeader"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:text="ADD HEADER"
             android:textColor="@android:color/white"
-            android:background="@color/colorAccent"
+            android:background="@drawable/button_background_add_element"
             app:layout_constraintTop_toBottomOf="@id/textInputEditTextRequestPath"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonShowHeader"/>
+
+        <ImageButton
+            android:id="@+id/buttonShowHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:padding="12dp"
+            app:srcCompat="@drawable/ic_show"
+            android:background="@drawable/button_background_add_element"
+            android:onClick="@{() -> viewModel.setHeadersListVisible(viewModel.showHeadersList)}"
+            show="@{viewModel.headers}"
+            setShowListIcon="@{viewModel.showHeadersList}"
+            app:layout_constraintTop_toTopOf="@id/buttonAddHeader"
+            app:layout_constraintBottom_toBottomOf="@id/buttonAddHeader"
+            app:layout_constraintStart_toEndOf="@id/buttonAddHeader"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHeader"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_margin="8dp"
@@ -74,7 +94,8 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bindAdapter="@{headerAdapter}"
             items="@{viewModel.headers}"
-            show="@{viewModel.headers}"
+            showByData="@{viewModel.headers}"
+            showByButton="@{viewModel.showHeadersList}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/buttonAddHeader"
