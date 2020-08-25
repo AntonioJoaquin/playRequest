@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PlayRequest</string>
+    
+    <!-- region PlayFragment -->
+    
+    <string name="element_already_exists">The element already exists in the list</string>
+    
+    <!-- endregion -->
 </resources>

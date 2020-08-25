@@ -6,14 +6,35 @@ import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
-import com.arjhox.develop.playrequest.ui.common.SchedulerProvider
+import com.arjhox.develop.playrequest.R
+import com.arjhox.develop.playrequest.ui.common.*
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableSingleObserver
 
 class PlayViewModel(
     private val playRequestUseCase: PlayRequestUseCase,
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
+
+    // region Navigation Variables
+
+    private val _openHeaderDialogEvent = MutableLiveData<Event<HeaderModel>>()
+    val openHeaderDialogEvent: LiveData<Event<HeaderModel>>
+        get() = _openHeaderDialogEvent
+
+    // endregion
+
+    // region Show Variables
+
+    private val _showHeadersList = MutableLiveData<Boolean>()
+    val showHeadersList: LiveData<Boolean>
+        get() = _showHeadersList
+
+    private val _showToastMessageEvent = MutableLiveData<Event<Int>>()
+    val showToastMessageEvent: LiveData<Event<Int>>
+        get() = _showToastMessageEvent
+
+    // endregion
+
 
     private val _requestPath = MutableLiveData<String>()
     val requestPath: LiveData<String>
@@ -23,12 +44,24 @@ class PlayViewModel(
     val loading: LiveData<LoadingState>
         get() = _loading
 
+    private val _headers = MutableLiveData<List<Header>>()
+    val headers: LiveData<List<Header>>
+        get() = _headers
+    private val headersList = arrayListOf<Header>()
+
     private val _requestResult = MutableLiveData<RequestResponse>()
     val requestResult: LiveData<RequestResponse>
         get() = _requestResult
 
 
     private val disposables = CompositeDisposable()
+
+
+    init {
+
+        _showHeadersList.postValue(true)
+
+    }
 
 
     override fun onCleared() {
@@ -58,8 +91,41 @@ class PlayViewModel(
         )
     }
 
+    fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
+        _openHeaderDialogEvent.postValue(Event(headerModel))
+
 
     fun setRequestPath(newRequestPath: String) =
         this._requestPath.postValue(newRequestPath)
+
+
+    // region HeaderAdapter
+
+    fun insertNewHeaderToRequest(header: Header) {
+        if (!headersList.contains(header)) {
+            headersList.add(header)
+            _headers.postValue(headersList)
+        } else {
+            _showToastMessageEvent.postValue(Event(R.string.element_already_exists))
+        }
+    }
+
+    fun updateHeaderToRequest(headerItemList: HeaderItemList) {
+        headersList[headerItemList.position] = Header(headerItemList.key, headerItemList.value)
+        _headers.postValue(headersList)
+    }
+
+    fun deleteHeaderFromRequest(header: Header) {
+        headersList.remove(header)
+        _headers.postValue(headersList)
+    }
+
+    fun setHeadersListVisible(canDisplay: Boolean) {
+        if (headersList.isNotEmpty()) {
+            _showHeadersList.postValue(!canDisplay)
+        }
+    }
+
+    // endregion
 
 }

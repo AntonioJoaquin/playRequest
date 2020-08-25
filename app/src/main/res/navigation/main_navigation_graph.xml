@@ -9,5 +9,26 @@
         android:id="@+id/playFragment"
         android:name="com.arjhox.develop.playrequest.ui.main.play.PlayFragment"
         android:label="play_fragment"
-        tools:layout="@layout/play_fragment" />
+        tools:layout="@layout/fragment_play" >
+
+        <action
+            android:id="@+id/openHeaderDialogAction"
+            app:destination="@id/headerDialog"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/headerDialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/headerDialog"
+        android:name="com.arjhox.develop.playrequest.ui.main.play.header.HeaderDialog"
+        android:label="header_dialog"
+        tools:layout="@layout/dialog_header">
+
+        <argument
+            android:name="header"
+            app:argType="com.arjhox.develop.playrequest.ui.common.HeaderModel" />
+    </dialog>
 </navigation>

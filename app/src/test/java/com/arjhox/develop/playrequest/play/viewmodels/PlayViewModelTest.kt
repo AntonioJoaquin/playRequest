@@ -6,6 +6,8 @@ import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.play.TrampolineSchedulerProvider
+import com.arjhox.develop.playrequest.ui.common.Header
+import com.arjhox.develop.playrequest.ui.common.HeaderItemList
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Single
@@ -28,6 +30,7 @@ class PlayViewModelTest {
     private lateinit var playViewModel: PlayViewModel
 
     private lateinit var loadingObserver: Observer<LoadingState>
+    private lateinit var headersObserver: Observer<List<Header>>
     private lateinit var requestResultObserver: Observer<RequestResponse>
 
 
@@ -40,6 +43,8 @@ class PlayViewModelTest {
 
         loadingObserver = mock()
         playViewModel.loading.observeForever(loadingObserver)
+        headersObserver = mock()
+        playViewModel.headers.observeForever(headersObserver)
         requestResultObserver = mock()
         playViewModel.requestResult.observeForever(requestResultObserver)
     }
@@ -98,5 +103,57 @@ class PlayViewModelTest {
 
         verify(requestResultObserver).onChanged(eq(result))
     }
+
+
+    // region Headers
+
+    @Test
+    fun `when add a new header should increment headers list`() {
+        val header = Header("key", "value")
+        val headerList = listOf(header)
+
+        playViewModel.insertNewHeaderToRequest(header)
+
+        verify(headersObserver).onChanged(eq(headerList))
+    }
+
+    @Test
+    fun `when add a new header and list already contains it should not increment headers list`() {
+        val header = Header("key", "value")
+        val headerList = listOf(header)
+
+        playViewModel.insertNewHeaderToRequest(header)
+        playViewModel.insertNewHeaderToRequest(header)
+
+        verify(headersObserver).onChanged(eq(headerList))
+    }
+
+    @Test
+    fun `when delete a header should decrement headers list`() {
+        val header1 = Header("key1", "value1")
+        val header2 = Header("key2", "value2")
+        val headerList = listOf(header2)
+
+        playViewModel.insertNewHeaderToRequest(header1)
+        playViewModel.insertNewHeaderToRequest(header2)
+        playViewModel.deleteHeaderFromRequest(header1)
+
+        verify(headersObserver, times(3)).onChanged(eq(headerList))
+    }
+
+    @Test
+    fun `when update a header it should be updated on headers list`() {
+        val header = Header("key", "value")
+        val header1 = Header("key1", "value1")
+        val headerItemList = HeaderItemList(header.key, header.value, 0)
+        val headerList = listOf(header)
+
+        playViewModel.insertNewHeaderToRequest(header1)
+        playViewModel.updateHeaderToRequest(headerItemList)
+
+        verify(headersObserver, times(2)).onChanged(headerList)
+    }
+
+    // endregion
 
 }

@@ -43,11 +43,22 @@
             android:layout_marginEnd="8dp"
             android:text="@{viewModel.requestResult.response}"
             show="@{viewModel.loading}"
-            app:layout_constraintTop_toBottomOf="@id/textInputEditTextRequestPath"
+            app:layout_constraintTop_toBottomOf="@id/layoutHeaders"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Request response"/>
+            tools:text="Request response"
+            tools:visibility="gone"/>
+
+        <include
+            android:id="@+id/layoutHeaders"
+            layout="@layout/layout_headers_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:viewModel="@{viewModel}"
+            app:layout_constraintTop_toBottomOf="@id/textInputEditTextRequestPath"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonPlayAction"
