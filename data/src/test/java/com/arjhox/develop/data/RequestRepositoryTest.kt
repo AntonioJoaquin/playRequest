@@ -3,11 +3,11 @@ package com.arjhox.develop.data
 import com.arjhox.develop.data.datasources.RequestRemoteDataSource
 import com.arjhox.develop.data.repository.RequestRepositoryImpl
 import com.arjhox.develop.domain.repositories.RequestRepository
-import com.nhaarman.mockitokotlin2.*
-import io.reactivex.Single
-import io.reactivex.observers.TestObserver
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.Before
 import org.junit.Test
+import com.arjhox.develop.domain.models.Request as RequestDomain
 
 
 class RequestRepositoryTest {
@@ -25,11 +25,13 @@ class RequestRepositoryTest {
 
     @Test
     fun `playRequest from repository should call playRequest from request remote dataSource`() {
-        val urlExample = "example"
+        val path = "example"
+        val headers = mapOf<String, String>()
+        val request = RequestDomain(path, headers)
 
-        requestRepository.playRequest(urlExample)
+        requestRepository.playRequest(request)
 
-        verify(remoteDataSource).playRequest(urlExample)
+        verify(remoteDataSource).playRequest(request.toRequestData())
     }
 
 }

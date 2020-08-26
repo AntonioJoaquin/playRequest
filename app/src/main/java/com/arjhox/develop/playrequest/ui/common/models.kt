@@ -17,3 +17,9 @@ data class HeaderItemList(
     override var value: String,
     val position: Int
 ): HeaderModel
+
+
+data class Request(
+    val path: String,
+    val headers: Map<String, String> = mapOf()
+)

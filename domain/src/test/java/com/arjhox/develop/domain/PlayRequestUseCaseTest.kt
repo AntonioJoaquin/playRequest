@@ -1,5 +1,6 @@
 package com.arjhox.develop.domain
 
+import com.arjhox.develop.domain.models.Request
 import com.arjhox.develop.domain.repositories.RequestRepository
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.nhaarman.mockitokotlin2.any
@@ -23,11 +24,13 @@ class PlayRequestUseCaseTest {
 
     @Test
     fun `playRequest from use case should call playRequest from requestRepository`() {
-        val url = "example"
+        val path = "example"
+        val headers = mapOf<String, String>()
+        val request = Request(path, headers)
 
-        playRequestUseCase.playRequest(url)
+        playRequestUseCase.playRequest(request)
 
-        verify(requestRepository).playRequest(url)
+        verify(requestRepository).playRequest(request)
     }
 
 }

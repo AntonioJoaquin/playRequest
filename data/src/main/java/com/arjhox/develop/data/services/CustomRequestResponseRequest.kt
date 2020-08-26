@@ -14,7 +14,7 @@ import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 
-class CustomRequestResponseRequest(
+open class CustomRequestResponseRequest(
     method: Int = Method.GET,
     url: String,
     jsonRequest: JSONObject?,

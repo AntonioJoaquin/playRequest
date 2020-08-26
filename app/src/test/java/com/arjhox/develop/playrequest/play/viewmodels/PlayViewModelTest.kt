@@ -8,9 +8,14 @@ import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.play.TrampolineSchedulerProvider
 import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.common.HeaderItemList
+import com.arjhox.develop.playrequest.ui.common.Request
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
 import com.nhaarman.mockitokotlin2.*
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.observers.TestObserver
+import io.reactivex.subscribers.TestSubscriber
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -102,6 +107,50 @@ class PlayViewModelTest {
         playViewModel.playRequest("")
 
         verify(requestResultObserver).onChanged(eq(result))
+    }
+
+    @Test
+    fun `mapHeaders should convert headers list to a map`() {
+        val headersList = listOf(
+            Header("key1", "value1"),
+            Header("key2", "value2")
+        )
+        val headersMap = mapOf(
+            "key1" to "value1",
+            "key2" to "value2"
+        )
+
+        val testObserver = playViewModel.mapHeaders(headersList).test()
+
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+        testObserver.assertResult(headersMap)
+
+
+    }
+
+    @Test
+    fun `makeRequest should create a Request object with path and headers`() {
+        val path = "example path"
+        val headersList = listOf(
+            Header("key1", "value1"),
+            Header("key2", "value2")
+        )
+        val request = Request(
+            path,
+            mapOf(
+                "key1" to "value1",
+                "key2" to "value2"
+            )
+        )
+
+        val testObserver = playViewModel.makeRequest(path, headersList).test()
+
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+        testObserver.assertResult(request)
+
+
     }
 
 

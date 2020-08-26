@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.LoadingState
+import com.arjhox.develop.domain.models.Request as RequestDomain
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.common.*
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 
 class PlayViewModel(
@@ -76,7 +78,8 @@ class PlayViewModel(
         _loading.postValue(LoadingState.LOADING)
 
         disposables.add(
-            playRequestUseCase.playRequest(requestPath)
+            makeRequest(requestPath, headersList)
+                .flatMap { request -> playRequestUseCase.playRequest(request.toRequestDomain()) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
@@ -99,7 +102,27 @@ class PlayViewModel(
         this._requestPath.postValue(newRequestPath)
 
 
+    fun makeRequest(path: String, headers: List<Header> = headersList): Single<Request> {
+        return mapHeaders(headers)
+            .map {
+                    headersMap -> Request(path, headersMap)
+            }
+    }
+
+
     // region HeaderAdapter
+
+    fun mapHeaders(headers: List<Header>): Single<Map<String, String>> {
+        return Single.create { emitter ->
+            val headersMap = mutableMapOf<String, String>()
+
+            for (header in headers) {
+                headersMap[header.key] = header.value
+            }
+
+            emitter.onSuccess(headersMap)
+        }
+    }
 
     fun insertNewHeaderToRequest(header: Header) {
         if (!headersList.contains(header)) {
