@@ -5,7 +5,8 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.arjhox.develop.domain.common.headersItems
+import com.arjhox.develop.domain.common.CUSTOM_HEADER
+import com.arjhox.develop.domain.common.headerTypes
 import com.arjhox.develop.playrequest.ui.common.Event
 import com.arjhox.develop.playrequest.ui.common.HeaderModel
 
@@ -15,12 +16,17 @@ class HeaderDialogViewModel: ViewModel() {
     val headers: LiveData<List<String>>
         get() = _headers
 
-    val headerKeySelectedObserver = ObservableField<String>()
-    val headerValueEnterObserver = ObservableField<String>()
+    val headerTypeSelectedObserver = ObservableField<String>()
+    val headerKeyEnteredObserver = ObservableField<String>()
+    val headerValueEnteredObserver = ObservableField<String>()
 
     lateinit var headerModel: HeaderModel
         private set
-    private lateinit var key: String
+
+    private val _key = MutableLiveData<String>("")
+    val key: LiveData<String>
+        get() = _key
+
     private val _value = MutableLiveData<String>("")
     val value: LiveData<String>
         get() = _value
@@ -31,10 +37,10 @@ class HeaderDialogViewModel: ViewModel() {
 
 
     fun init(initHeader: HeaderModel) {
-        _headers.postValue(headersItems)
+        _headers.postValue(headerTypes)
 
         headerModel = initHeader
-        key = headerModel.key
+        _key.postValue(headerModel.key)
         _value.postValue(headerModel.value)
 
         initObserversField()
@@ -42,15 +48,27 @@ class HeaderDialogViewModel: ViewModel() {
 
 
     private fun initObserversField() {
-        headerKeySelectedObserver.apply {
+        headerTypeSelectedObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                    key = this@apply.get().toString()
+                    if (this@apply.get() == CUSTOM_HEADER) {
+                        _key.postValue(this@apply.get().toString())
+                    } else {
+                        _key.postValue(null)
+                    }
                 }
             })
         }
 
-        headerValueEnterObserver.apply {
+        headerKeyEnteredObserver.apply {
+            addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+                override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                    _key.postValue(this@apply.get().toString())
+                }
+            })
+        }
+
+        headerValueEnteredObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                     _value.postValue(this@apply.get().toString())
@@ -60,11 +78,11 @@ class HeaderDialogViewModel: ViewModel() {
     }
 
 
-    fun onConfirmHeader(currentValue: String?) {
+    fun onConfirmHeader(currentKey: String?, currentValue: String?) {
         if (currentValue.isNullOrEmpty()) {
             _value.postValue(null)
         } else {
-            headerModel.key = key
+            headerModel.key = currentKey!!
             headerModel.value = currentValue
 
             _closeDialogWithConfirmationEvent.postValue(Event(headerModel))

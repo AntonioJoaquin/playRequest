@@ -10,7 +10,9 @@ import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
+import com.arjhox.develop.domain.common.CUSTOM_HEADER
 import com.arjhox.develop.domain.common.LoadingState
+import com.arjhox.develop.domain.common.headerTypes
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
@@ -72,8 +74,37 @@ fun AppCompatSpinner.itemSelected(result: ObservableField<String>) {
     }
 }
 
-@BindingAdapter("showInputError")
-fun TextInputLayout.showInputError(value: String?) {
+@BindingAdapter("initialItemSelected")
+fun AppCompatSpinner.initialItemSelected(item: String?) {
+    if (!item.isNullOrBlank()) {
+        if (headerTypes.contains(item)) {
+            setSelection(headerTypes.indexOf(item))
+        } else {
+            setSelection(headerTypes.indexOf(CUSTOM_HEADER))
+        }
+    }
+}
+
+@BindingAdapter("show")
+fun TextInputLayout.showKeyInput(key: String?) {
+    visibility = if (key== CUSTOM_HEADER) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+
+@BindingAdapter("showKeyInputError")
+fun TextInputLayout.showKeyInputError(key: String?) {
+    error = if (key==null) {
+        "Header key is necessary"
+    } else {
+        null
+    }
+}
+
+@BindingAdapter("showValueInputError")
+fun TextInputLayout.showValueInputError(value: String?) {
     error = if (value==null) {
         "Header value is necessary"
     } else {

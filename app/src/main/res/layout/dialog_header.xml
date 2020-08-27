@@ -20,10 +20,33 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:entries="@{viewModel.headers}"
-            app:itemSelected="@{viewModel.headerKeySelectedObserver}"
+            app:initialItemSelected="@{viewModel.headerModel.key}"
+            app:itemSelected="@{viewModel.headerTypeSelectedObserver}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutCustomHeaderKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Header key"
+            app:show="@{viewModel.key}"
+            app:showKeyInputError="@{viewModel.key}"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/appCompatSpinnerHeaderKey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextCustomHeaderKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.headerModel.key}"
+                app:enteredText="@{viewModel.headerKeyEnteredObserver}" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutHeaderValue"
@@ -31,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Header value"
-            app:showInputError="@{viewModel.value}"
-            app:layout_constraintTop_toBottomOf="@id/appCompatSpinnerHeaderKey"
+            app:showValueInputError="@{viewModel.value}"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutCustomHeaderKey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -41,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.headerModel.value}"
-                app:enteredText="@{viewModel.headerValueEnterObserver}" />
+                app:enteredText="@{viewModel.headerValueEnteredObserver}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -51,8 +74,8 @@
             android:layout_margin="16dp"
             android:text="OK"
             android:textColor="@android:color/white"
-            android:background="@color/colorAccent"
-            android:onClick="@{() -> viewModel.onConfirmHeader(viewModel.value)}"
+            android:background="@drawable/button_background_add_element"
+            android:onClick="@{() -> viewModel.onConfirmHeader(viewModel.key, viewModel.value)}"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutHeaderValue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
