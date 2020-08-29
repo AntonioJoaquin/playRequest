@@ -28,7 +28,7 @@
             android:layout_marginEnd="16dp"
             android:inputType="text"
             android:singleLine="true"
-            android:hint="Write your request!"
+            android:hint="@string/hint_write_request"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_play"
-            android:text="Play Request!"
+            android:text="@string/button_text_play_request"
             android:onClick="@{() -> viewModel.playRequest(viewModel.requestPath)}"
             android:theme="@style/AppTheme"
             show="@{viewModel.requestPath}"
