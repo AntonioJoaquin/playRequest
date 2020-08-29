@@ -2,9 +2,12 @@ package com.arjhox.develop.playrequest.ui.main.play.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.ItemHeaderBinding
 import com.arjhox.develop.playrequest.ui.common.Header
+import com.arjhox.develop.playrequest.ui.common.bindingInflate
 import com.arjhox.develop.playrequest.ui.main.play.header.HeaderListener
 
 class HeaderAdapter(
@@ -36,8 +39,7 @@ class HeaderAdapter(
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemHeaderBinding.inflate(layoutInflater, parent, false)
+                val binding = parent.bindingInflate<ItemHeaderBinding>(R.layout.item_header)
 
                 return ViewHolder(binding)
             }

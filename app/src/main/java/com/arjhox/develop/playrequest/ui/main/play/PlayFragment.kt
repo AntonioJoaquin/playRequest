@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
+import com.arjhox.develop.playrequest.databinding.ItemHeaderBinding
 import com.arjhox.develop.playrequest.ui.common.*
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
 import com.arjhox.develop.playrequest.ui.main.play.header.HeaderListener
@@ -24,7 +25,7 @@ class PlayFragment : Fragment() {
 
     private val viewModel by viewModel<PlayViewModel>()
 
-    private lateinit var binding: FragmentPlayBinding
+    private var binding: FragmentPlayBinding? = null
 
     private lateinit var navController: NavController
     private var headerModelFromDialog: HeaderModel? = null
@@ -44,16 +45,11 @@ class PlayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_play,
-            container,
-            false
-        )
+        binding = container?.bindingInflate(R.layout.fragment_play)
 
         init()
 
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +60,7 @@ class PlayFragment : Fragment() {
 
 
     private fun init() {
-        binding.let {
+        binding?.let {
             it.lifecycleOwner = this@PlayFragment
             it.viewModel = this.viewModel
             it.layoutHeaders.headerAdapter = this.headerAdapter
@@ -75,11 +71,11 @@ class PlayFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.textInputEditTextRequestPath.doOnTextChanged { text, _, _, _ ->
+        binding?.textInputEditTextRequestPath?.doOnTextChanged { text, _, _, _ ->
             viewModel.setRequestPath(text.toString())
         }
 
-        binding.layoutHeaders.buttonAddHeader.setOnClickListener { viewModel.openHeaderDialogClicked() }
+        binding?.layoutHeaders?.buttonAddHeader?.setOnClickListener { viewModel.openHeaderDialogClicked() }
     }
 
     private fun initObservers() {

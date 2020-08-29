@@ -1,25 +1,26 @@
 package com.arjhox.develop.playrequest.ui.main.play.adapters
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.ItemSimpleSpinnerBinding
+import com.arjhox.develop.playrequest.ui.common.bindingInflate
 
 class SimpleSpinnerAdapter(
     private val items: List<String>
 ): BaseAdapter() {
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val viewHolder = if (convertView != null) {
             convertView.tag as ViewHolder
         } else {
             ViewHolder.from(parent)
         }
         val binding = viewHolder.bind(getItem(position))
-        val view = binding.root
+        val view = binding?.root
 
-        view.tag = viewHolder
+        view?.tag = viewHolder
 
         return view
     }
@@ -35,23 +36,22 @@ class SimpleSpinnerAdapter(
 
 
     class ViewHolder private constructor(
-        private val binding: ItemSimpleSpinnerBinding
+        private val binding: ItemSimpleSpinnerBinding?
     ) {
 
         companion object {
             fun from(parent: ViewGroup?): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent?.context)
-                val binding = ItemSimpleSpinnerBinding.inflate(layoutInflater, parent, false)
+                val binding = parent?.bindingInflate<ItemSimpleSpinnerBinding>(R.layout.item_simple_spinner)
 
                 return ViewHolder(binding)
             }
         }
 
 
-        fun bind(item: String): ItemSimpleSpinnerBinding {
-            binding.headerType = item
+        fun bind(item: String): ItemSimpleSpinnerBinding? {
+            binding?.headerType = item
 
-            binding.executePendingBindings()
+            binding?.executePendingBindings()
 
             return binding
         }
