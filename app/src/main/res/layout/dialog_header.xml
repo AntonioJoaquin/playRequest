@@ -19,9 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:entries="@{viewModel.headers}"
-            app:initialItemSelected="@{viewModel.headerModel.key}"
             app:itemSelected="@{viewModel.headerTypeSelectedObserver}"
+            app:init="@{viewModel.headerModel.key}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -32,19 +31,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Header key"
-            app:show="@{viewModel.key}"
+            app:show="@{viewModel.keyType}"
             app:showKeyInputError="@{viewModel.key}"
-            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/appCompatSpinnerHeaderKey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:visibility="visible">
+            app:layout_constraintEnd_toEndOf="parent" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextCustomHeaderKey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.headerModel.key}"
+                android:text="@{viewModel.key}"
                 app:enteredText="@{viewModel.headerKeyEnteredObserver}" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -12,16 +12,16 @@ import com.arjhox.develop.playrequest.ui.common.HeaderModel
 
 class HeaderDialogViewModel: ViewModel() {
 
-    private val _headers = MutableLiveData<List<String>>()
-    val headers: LiveData<List<String>>
-        get() = _headers
-
     val headerTypeSelectedObserver = ObservableField<String>()
     val headerKeyEnteredObserver = ObservableField<String>()
     val headerValueEnteredObserver = ObservableField<String>()
 
     lateinit var headerModel: HeaderModel
         private set
+
+    private val _keyType = MutableLiveData<String>("")
+    val keyType: LiveData<String>
+        get() = _keyType
 
     private val _key = MutableLiveData<String>("")
     val key: LiveData<String>
@@ -36,10 +36,12 @@ class HeaderDialogViewModel: ViewModel() {
         get() = _closeDialogWithConfirmationEvent
 
 
-    fun init(initHeader: HeaderModel) {
-        _headers.postValue(headerTypes)
+    private var isACustomKey: Boolean = false
 
+
+    fun init(initHeader: HeaderModel) {
         headerModel = initHeader
+        isACustomKey = (headerModel.key.isNotBlank() && !headerTypes.contains(headerModel.key))
         _key.postValue(headerModel.key)
         _value.postValue(headerModel.value)
 
@@ -51,10 +53,12 @@ class HeaderDialogViewModel: ViewModel() {
         headerTypeSelectedObserver.apply {
             addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                 override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                    _keyType.postValue(this@apply.get().toString())
+
                     if (this@apply.get() == CUSTOM_HEADER) {
-                        _key.postValue(this@apply.get().toString())
+                        _key.postValue(if (isACustomKey) headerModel.key else "")
                     } else {
-                        _key.postValue(null)
+                        _key.postValue(this@apply.get().toString())
                     }
                 }
             })
@@ -79,13 +83,19 @@ class HeaderDialogViewModel: ViewModel() {
 
 
     fun onConfirmHeader(currentKey: String?, currentValue: String?) {
-        if (currentValue.isNullOrEmpty()) {
-            _value.postValue(null)
-        } else {
-            headerModel.key = currentKey!!
-            headerModel.value = currentValue
+        when {
+            currentKey.isNullOrBlank() -> {
+                _key.postValue(null)
+            }
+            currentValue.isNullOrBlank() -> {
+                _value.postValue(null)
+            }
+            else -> {
+                headerModel.key = currentKey
+                headerModel.value = currentValue
 
-            _closeDialogWithConfirmationEvent.postValue(Event(headerModel))
+                _closeDialogWithConfirmationEvent.postValue(Event(headerModel))
+            }
         }
     }
 
