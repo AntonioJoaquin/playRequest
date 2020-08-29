@@ -1,19 +1,20 @@
 package com.arjhox.develop.playrequest.ui.main.play
 
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
+import com.arjhox.develop.domain.common.CUSTOM_HEADER
 import com.arjhox.develop.domain.common.LoadingState
+import com.arjhox.develop.domain.common.headerTypes
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
+import com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -62,9 +63,7 @@ fun RecyclerView.items(data: List<Header>?) {
 @BindingAdapter("itemSelected")
 fun AppCompatSpinner.itemSelected(result: ObservableField<String>) {
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-
-        }
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             result.set(parent?.getItemAtPosition(position) as String)
@@ -72,8 +71,39 @@ fun AppCompatSpinner.itemSelected(result: ObservableField<String>) {
     }
 }
 
-@BindingAdapter("showInputError")
-fun TextInputLayout.showInputError(value: String?) {
+@BindingAdapter("init")
+fun AppCompatSpinner.init(item: String?) {
+    adapter = SimpleSpinnerAdapter(headerTypes.sorted())
+
+    if (!item.isNullOrBlank()) {
+        if (headerTypes.contains(item)) {
+            setSelection(headerTypes.indexOf(item), true)
+        } else {
+            setSelection(headerTypes.indexOf(CUSTOM_HEADER), true)
+        }
+    }
+}
+
+@BindingAdapter("show")
+fun TextInputLayout.showKeyInput(key: String?) {
+    visibility = if (key == CUSTOM_HEADER) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+
+@BindingAdapter("showKeyInputError")
+fun TextInputLayout.showKeyInputError(key: String?) {
+    error = if (key == null) {
+        "Header key is necessary"
+    } else {
+        null
+    }
+}
+
+@BindingAdapter("showValueInputError")
+fun TextInputLayout.showValueInputError(value: String?) {
     error = if (value==null) {
         "Header value is necessary"
     } else {
