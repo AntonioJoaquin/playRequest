@@ -103,6 +103,15 @@ class PlayFragmentTest: KoinTest {
         verify(navController).navigate(action)
     }
 
+    @Test
+    fun `when click on ADD_PARAMS should open param dialog`() {
+        val action = PlayFragmentDirections.openParameterDialogAction()
+
+        onView(withId(R.id.buttonAddParameter))
+            .perform(ViewActions.click())
+        verify(navController).navigate(action)
+    }
+
 
     @After
     fun stopKoinAfterTest() = stopKoin()

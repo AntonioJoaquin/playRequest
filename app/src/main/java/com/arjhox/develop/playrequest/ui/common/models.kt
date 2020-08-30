@@ -19,6 +19,12 @@ data class HeaderItemList(
 ): HeaderModel
 
 
+data class Parameter(
+    var key: String = "",
+    var value: String = ""
+)
+
+
 data class Request(
     val path: String,
     val headers: Map<String, String> = mapOf()

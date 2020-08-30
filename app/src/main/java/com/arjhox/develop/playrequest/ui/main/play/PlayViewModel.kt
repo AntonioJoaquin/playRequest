@@ -23,6 +23,10 @@ class PlayViewModel(
     val openHeaderDialogEvent: LiveData<Event<HeaderModel>>
         get() = _openHeaderDialogEvent
 
+    private val _openParameterDialogEvent = MutableLiveData<Event<Parameter>>()
+    val openParameterDialogEvent: LiveData<Event<Parameter>>
+        get() = _openParameterDialogEvent
+
     // endregion
 
     // region Show Variables
@@ -96,6 +100,9 @@ class PlayViewModel(
 
     fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
         _openHeaderDialogEvent.postValue(Event(headerModel))
+
+    fun openParameterDialogClicked(parameter: Parameter = Parameter()) =
+        _openParameterDialogEvent.postValue(Event(parameter))
 
 
     fun setRequestPath(newRequestPath: String) =
