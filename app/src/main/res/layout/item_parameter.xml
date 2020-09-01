@@ -29,11 +29,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/appCompatImageViewRemoveHeader"
+            app:layout_constraintEnd_toStartOf="@id/appCompatImageViewRemoveParameter"
             android:onClick="@{() -> parameterListener.onClick(parameter, position)}">
 
             <TextView
-                android:id="@+id/textViewHeaderKey"
+                android:id="@+id/textViewParameterKey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -41,24 +41,24 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Header Key"/>
+                tools:text="Parameter Key"/>
 
             <TextView
-                android:id="@+id/textViewHeaderValue"
+                android:id="@+id/textViewParameterValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@{parameter.value}"
                 android:ellipsize="end"
                 android:singleLine="true"
-                app:layout_constraintTop_toBottomOf="@id/textViewHeaderKey"
+                app:layout_constraintTop_toBottomOf="@id/textViewParameterKey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Header Value"/>
+                tools:text="Parameter Value"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageViewRemoveHeader"
+            android:id="@+id/appCompatImageViewRemoveParameter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
