@@ -14,7 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.DialogHeaderBinding
 import com.arjhox.develop.playrequest.ui.common.EventObserver
-import com.arjhox.develop.playrequest.ui.common.headerKey
+import com.arjhox.develop.playrequest.ui.common.HEADER_KEY
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HeaderDialog: DialogFragment() {
@@ -57,7 +57,7 @@ class HeaderDialog: DialogFragment() {
     private fun initNavigationObserver() {
         viewModel.closeDialogWithConfirmationEvent.observe(this@HeaderDialog, EventObserver {
             findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                headerKey,
+                HEADER_KEY,
                 it
             )
 

@@ -31,6 +31,7 @@ class PlayFragment : Fragment() {
 
     private lateinit var navController: NavController
     private var headerModelFromDialog: HeaderModel? = null
+    private var parameterModelFromDialog: ParameterModel? = null
 
     private val headerAdapter = HeaderAdapter(
         HeaderListener(
@@ -46,7 +47,7 @@ class PlayFragment : Fragment() {
 
             },
             deleteListener = { parameter ->
-
+                viewModel.deleteParameterFromRequest(parameter)
             }
         )
     )
@@ -89,7 +90,6 @@ class PlayFragment : Fragment() {
         }
 
         binding?.layoutHeaders?.buttonAddHeader?.setOnClickListener { viewModel.openHeaderDialogClicked() }
-
         binding?.buttonAddParameter?.setOnClickListener { viewModel.openParameterDialogClicked() }
     }
 
@@ -108,7 +108,7 @@ class PlayFragment : Fragment() {
         })
 
         viewModel.openParameterDialogEvent.observe(viewLifecycleOwner, EventObserver {
-            val action = PlayFragmentDirections.openParameterDialogAction()
+            val action = PlayFragmentDirections.openParameterDialogAction(it)
             navController.navigate(action)
         })
     }
@@ -118,17 +118,29 @@ class PlayFragment : Fragment() {
 
         val navBackStackEntry: NavBackStackEntry? = navController.getBackStackEntry(R.id.playFragment)
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry?.savedStateHandle!!.contains(headerKey)) {
-                headerModelFromDialog = navBackStackEntry.savedStateHandle.get<Header>(headerKey)
-                headerModelFromDialog?.let {
-                    if (headerModelFromDialog is Header) {
-                        viewModel.insertNewHeaderToRequest(it as Header)
-                    } else if (it is HeaderItemList) {
-                        viewModel.updateHeaderToRequest(it)
+            if (event == Lifecycle.Event.ON_RESUME) {
+                if (navBackStackEntry?.savedStateHandle!!.contains(HEADER_KEY)) {
+                    headerModelFromDialog = navBackStackEntry.savedStateHandle.get<Header>(HEADER_KEY)
+                    headerModelFromDialog?.let {
+                        if (headerModelFromDialog is Header) {
+                            viewModel.insertNewHeaderToRequest(it as Header)
+                        } else if (it is HeaderItemList) {
+                            viewModel.updateHeaderToRequest(it)
+                        }
                     }
+
+                    navBackStackEntry.savedStateHandle.remove<Header>(HEADER_KEY)
+                } else if (navBackStackEntry.savedStateHandle.contains(PARAMETER_KEY)) {
+                    parameterModelFromDialog = navBackStackEntry.savedStateHandle.get<Parameter>(PARAMETER_KEY)
+                    parameterModelFromDialog?.let {
+                        if (parameterModelFromDialog is Parameter) {
+                            viewModel.insertNewParameterToRequest(it as Parameter)
+                        }
+                    }
+
+                    navBackStackEntry.savedStateHandle.remove<Parameter>(PARAMETER_KEY)
                 }
 
-                navBackStackEntry.savedStateHandle.remove<Header>(headerKey)
             }
         }
 

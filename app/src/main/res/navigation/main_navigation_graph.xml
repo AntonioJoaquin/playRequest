@@ -45,5 +45,10 @@
         android:id="@+id/parameterDialog"
         android:name="com.arjhox.develop.playrequest.ui.main.play.parameter.ParameterDialog"
         android:label="parameter_dialog"
-        tools:layout="@layout/dialog_parameter" />
+        tools:layout="@layout/dialog_parameter" >
+
+        <argument
+            android:name="parameter"
+            app:argType="com.arjhox.develop.playrequest.ui.common.ParameterModel" />
+    </dialog>
 </navigation>
