@@ -6,10 +6,7 @@ import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.play.TrampolineSchedulerProvider
-import com.arjhox.develop.playrequest.ui.common.Header
-import com.arjhox.develop.playrequest.ui.common.HeaderItemList
-import com.arjhox.develop.playrequest.ui.common.Parameter
-import com.arjhox.develop.playrequest.ui.common.Request
+import com.arjhox.develop.playrequest.ui.common.*
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Observable
@@ -244,6 +241,19 @@ class PlayViewModelTest {
         playViewModel.deleteParameterFromRequest(parameter1)
 
         verify(parameterObserver, times(3)).onChanged(eq(parameterList))
+    }
+
+    @Test
+    fun `when update a parameter it should be updated on parameters list`() {
+        val parameter = Parameter("key", "value")
+        val parameter1 = Parameter("key1", "value1")
+        val parameterItemList = ParameterItemList(parameter.key, parameter.value, 0)
+        val parameterList = listOf(parameter)
+
+        playViewModel.insertNewParameterToRequest(parameter1)
+        playViewModel.updateParameterToRequest(parameterItemList)
+
+        verify(parameterObserver, times(2)).onChanged(parameterList)
     }
 
     // endregion

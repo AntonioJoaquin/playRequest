@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -15,7 +13,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
-import com.arjhox.develop.playrequest.databinding.ItemHeaderBinding
 import com.arjhox.develop.playrequest.ui.common.*
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter
@@ -44,7 +41,7 @@ class PlayFragment : Fragment() {
     private val parameterAdapter = ParameterAdapter(
         ParameterListener(
             clickListener = { parameter, position ->
-
+                viewModel.openParameterDialogClicked(ParameterItemList(parameter.key, parameter.value, position))
             },
             deleteListener = { parameter ->
                 viewModel.deleteParameterFromRequest(parameter)
@@ -135,6 +132,8 @@ class PlayFragment : Fragment() {
                     parameterModelFromDialog?.let {
                         if (parameterModelFromDialog is Parameter) {
                             viewModel.insertNewParameterToRequest(it as Parameter)
+                        } else if (it is ParameterItemList) {
+                            viewModel.updateParameterToRequest(it)
                         }
                     }
 

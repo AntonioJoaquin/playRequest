@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.LoadingState
-import com.arjhox.develop.domain.models.Request as RequestDomain
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
@@ -23,8 +22,8 @@ class PlayViewModel(
     val openHeaderDialogEvent: LiveData<Event<HeaderModel>>
         get() = _openHeaderDialogEvent
 
-    private val _openParameterDialogEvent = MutableLiveData<Event<Parameter>>()
-    val openParameterDialogEvent: LiveData<Event<Parameter>>
+    private val _openParameterDialogEvent = MutableLiveData<Event<ParameterModel>>()
+    val openParameterDialogEvent: LiveData<Event<ParameterModel>>
         get() = _openParameterDialogEvent
 
     // endregion
@@ -107,7 +106,7 @@ class PlayViewModel(
     fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
         _openHeaderDialogEvent.postValue(Event(headerModel))
 
-    fun openParameterDialogClicked(parameter: Parameter = Parameter()) =
+    fun openParameterDialogClicked(parameter: ParameterModel = Parameter()) =
         _openParameterDialogEvent.postValue(Event(parameter))
 
 
@@ -172,6 +171,11 @@ class PlayViewModel(
             parametersList.add(parameter)
             _parameters.postValue(parametersList)
         }
+    }
+
+    fun updateParameterToRequest(parameterItemList: ParameterItemList) {
+        parametersList[parameterItemList.position] = Parameter(parameterItemList.key, parameterItemList.value)
+        _parameters.postValue(parametersList)
     }
 
     fun deleteParameterFromRequest(parameter: Parameter) {
