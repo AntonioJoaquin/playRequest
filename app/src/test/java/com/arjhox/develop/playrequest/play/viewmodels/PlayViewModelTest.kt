@@ -8,6 +8,7 @@ import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.play.TrampolineSchedulerProvider
 import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.common.HeaderItemList
+import com.arjhox.develop.playrequest.ui.common.Parameter
 import com.arjhox.develop.playrequest.ui.common.Request
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
 import com.nhaarman.mockitokotlin2.*
@@ -36,6 +37,7 @@ class PlayViewModelTest {
 
     private lateinit var loadingObserver: Observer<LoadingState>
     private lateinit var headersObserver: Observer<List<Header>>
+    private lateinit var parameterObserver: Observer<List<Parameter>>
     private lateinit var requestResultObserver: Observer<RequestResponse>
 
 
@@ -50,6 +52,8 @@ class PlayViewModelTest {
         playViewModel.loading.observeForever(loadingObserver)
         headersObserver = mock()
         playViewModel.headers.observeForever(headersObserver)
+        parameterObserver = mock()
+        playViewModel.parameters.observeForever(parameterObserver)
         requestResultObserver = mock()
         playViewModel.requestResult.observeForever(requestResultObserver)
     }
@@ -201,6 +205,45 @@ class PlayViewModelTest {
         playViewModel.updateHeaderToRequest(headerItemList)
 
         verify(headersObserver, times(2)).onChanged(headerList)
+    }
+
+    // endregion
+
+
+    // region Parameters
+
+    @Test
+    fun `when add a new parameter should increment parameters list`() {
+        val parameter = Parameter("key", "value")
+        val parameterList = listOf(parameter)
+
+        playViewModel.insertNewParameterToRequest(parameter)
+
+        verify(parameterObserver).onChanged(eq(parameterList))
+    }
+
+    @Test
+    fun `when add a new parameter and list already contains it should not increment parameters list`() {
+        val parameter = Parameter("key", "value")
+        val parameterList = listOf(parameter)
+
+        playViewModel.insertNewParameterToRequest(parameter)
+        playViewModel.insertNewParameterToRequest(parameter)
+
+        verify(parameterObserver).onChanged(eq(parameterList))
+    }
+
+    @Test
+    fun `when delete a parameter should decrement parameters list`() {
+        val parameter1 = Parameter("key1", "value1")
+        val parameter2 = Parameter("key2", "value2")
+        val parameterList = listOf(parameter2)
+
+        playViewModel.insertNewParameterToRequest(parameter1)
+        playViewModel.insertNewParameterToRequest(parameter2)
+        playViewModel.deleteParameterFromRequest(parameter1)
+
+        verify(parameterObserver, times(3)).onChanged(eq(parameterList))
     }
 
     // endregion

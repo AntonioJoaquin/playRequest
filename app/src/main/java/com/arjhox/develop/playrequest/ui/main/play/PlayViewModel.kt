@@ -29,6 +29,7 @@ class PlayViewModel(
 
     // endregion
 
+
     // region Show Variables
 
     private val _showHeadersList = MutableLiveData<Boolean>()
@@ -54,6 +55,11 @@ class PlayViewModel(
     val headers: LiveData<List<Header>>
         get() = _headers
     private val headersList = arrayListOf<Header>()
+
+    private val _parameters = MutableLiveData<List<Parameter>>()
+    val parameters: LiveData<List<Parameter>>
+        get() = _parameters
+    private val parametersList = arrayListOf<Parameter>()
 
     private val _requestResult = MutableLiveData<RequestResponse>()
     val requestResult: LiveData<RequestResponse>
@@ -154,6 +160,23 @@ class PlayViewModel(
         if (headersList.isNotEmpty()) {
             _showHeadersList.postValue(!canDisplay)
         }
+    }
+
+    // endregion
+
+
+    // region ParameterAdapter
+
+    fun insertNewParameterToRequest(parameter: Parameter) {
+        if (!parametersList.contains(parameter)) {
+            parametersList.add(parameter)
+            _parameters.postValue(parametersList)
+        }
+    }
+
+    fun deleteParameterFromRequest(parameter: Parameter) {
+        parametersList.remove(parameter)
+        _parameters.postValue(parametersList)
     }
 
     // endregion

@@ -12,6 +12,10 @@
         <variable
             name="viewModel"
             type="com.arjhox.develop.playrequest.ui.main.play.PlayViewModel" />
+
+        <variable
+            name="parameterAdapter"
+            type="com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,6 +75,22 @@
             android:background="@drawable/button_background_add_element"
             app:layout_constraintTop_toBottomOf="@id/layoutHeaders"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewParameter"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            bindAdapter="@{parameterAdapter}"
+            items="@{viewModel.parameters}"
+            showByData="@{viewModel.parameters}"
+            showByButton="@{true}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonAddParameter"
+            tools:listitem="@layout/item_parameter" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonPlayAction"

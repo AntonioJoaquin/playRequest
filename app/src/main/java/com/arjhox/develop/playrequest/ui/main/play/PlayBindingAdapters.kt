@@ -13,7 +13,9 @@ import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.common.headerTypes
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.common.Header
+import com.arjhox.develop.playrequest.ui.common.Parameter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
+import com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -56,6 +58,13 @@ fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
 @BindingAdapter("items")
 fun RecyclerView.items(data: List<Header>?) {
     (adapter as? HeaderAdapter)?.let {
+        it.items = data ?: emptyList()
+    }
+}
+
+@BindingAdapter("items")
+fun RecyclerView.parameterItems(data: List<Parameter>?) {
+    (adapter as? ParameterAdapter)?.let {
         it.items = data ?: emptyList()
     }
 }

@@ -18,7 +18,9 @@ import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
 import com.arjhox.develop.playrequest.databinding.ItemHeaderBinding
 import com.arjhox.develop.playrequest.ui.common.*
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
+import com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter
 import com.arjhox.develop.playrequest.ui.main.play.header.HeaderListener
+import com.arjhox.develop.playrequest.ui.main.play.parameter.ParameterListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayFragment : Fragment() {
@@ -36,6 +38,16 @@ class PlayFragment : Fragment() {
                 viewModel.openHeaderDialogClicked(HeaderItemList(header.key, header.value, position))
             },
             deleteListener = { viewModel.deleteHeaderFromRequest(it) }
+        )
+    )
+    private val parameterAdapter = ParameterAdapter(
+        ParameterListener(
+            clickListener = { parameter, position ->
+
+            },
+            deleteListener = { parameter ->
+
+            }
         )
     )
 
@@ -63,6 +75,7 @@ class PlayFragment : Fragment() {
         binding?.let {
             it.lifecycleOwner = this@PlayFragment
             it.viewModel = this.viewModel
+            it.parameterAdapter = parameterAdapter
             it.layoutHeaders.headerAdapter = this.headerAdapter
         }
 
