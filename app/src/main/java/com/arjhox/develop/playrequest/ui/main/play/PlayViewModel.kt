@@ -35,6 +35,10 @@ class PlayViewModel(
     val showHeadersList: LiveData<Boolean>
         get() = _showHeadersList
 
+    private val _showParametersList = MutableLiveData<Boolean>()
+    val showParametersList: LiveData<Boolean>
+        get() = _showParametersList
+
     private val _showToastMessageEvent = MutableLiveData<Event<Int>>()
     val showToastMessageEvent: LiveData<Event<Int>>
         get() = _showToastMessageEvent
@@ -71,6 +75,7 @@ class PlayViewModel(
     init {
 
         _showHeadersList.postValue(true)
+        _showParametersList.postValue(true)
 
     }
 
@@ -181,6 +186,12 @@ class PlayViewModel(
     fun deleteParameterFromRequest(parameter: Parameter) {
         parametersList.remove(parameter)
         _parameters.postValue(parametersList)
+    }
+
+    fun setParametersListVisible(canDisplay: Boolean) {
+        if (parametersList.isNotEmpty()) {
+            _showParametersList.postValue(!canDisplay)
+        }
     }
 
     // endregion
