@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.LoadingState
-import com.arjhox.develop.domain.models.Request as RequestDomain
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
@@ -23,13 +22,22 @@ class PlayViewModel(
     val openHeaderDialogEvent: LiveData<Event<HeaderModel>>
         get() = _openHeaderDialogEvent
 
+    private val _openParameterDialogEvent = MutableLiveData<Event<ParameterModel>>()
+    val openParameterDialogEvent: LiveData<Event<ParameterModel>>
+        get() = _openParameterDialogEvent
+
     // endregion
+
 
     // region Show Variables
 
     private val _showHeadersList = MutableLiveData<Boolean>()
     val showHeadersList: LiveData<Boolean>
         get() = _showHeadersList
+
+    private val _showParametersList = MutableLiveData<Boolean>()
+    val showParametersList: LiveData<Boolean>
+        get() = _showParametersList
 
     private val _showToastMessageEvent = MutableLiveData<Event<Int>>()
     val showToastMessageEvent: LiveData<Event<Int>>
@@ -51,6 +59,11 @@ class PlayViewModel(
         get() = _headers
     private val headersList = arrayListOf<Header>()
 
+    private val _parameters = MutableLiveData<List<Parameter>>()
+    val parameters: LiveData<List<Parameter>>
+        get() = _parameters
+    private val parametersList = arrayListOf<Parameter>()
+
     private val _requestResult = MutableLiveData<RequestResponse>()
     val requestResult: LiveData<RequestResponse>
         get() = _requestResult
@@ -62,6 +75,7 @@ class PlayViewModel(
     init {
 
         _showHeadersList.postValue(true)
+        _showParametersList.postValue(true)
 
     }
 
@@ -96,6 +110,9 @@ class PlayViewModel(
 
     fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
         _openHeaderDialogEvent.postValue(Event(headerModel))
+
+    fun openParameterDialogClicked(parameter: ParameterModel = Parameter()) =
+        _openParameterDialogEvent.postValue(Event(parameter))
 
 
     fun setRequestPath(newRequestPath: String) =
@@ -146,6 +163,34 @@ class PlayViewModel(
     fun setHeadersListVisible(canDisplay: Boolean) {
         if (headersList.isNotEmpty()) {
             _showHeadersList.postValue(!canDisplay)
+        }
+    }
+
+    // endregion
+
+
+    // region ParameterAdapter
+
+    fun insertNewParameterToRequest(parameter: Parameter) {
+        if (!parametersList.contains(parameter)) {
+            parametersList.add(parameter)
+            _parameters.postValue(parametersList)
+        }
+    }
+
+    fun updateParameterToRequest(parameterItemList: ParameterItemList) {
+        parametersList[parameterItemList.position] = Parameter(parameterItemList.key, parameterItemList.value)
+        _parameters.postValue(parametersList)
+    }
+
+    fun deleteParameterFromRequest(parameter: Parameter) {
+        parametersList.remove(parameter)
+        _parameters.postValue(parametersList)
+    }
+
+    fun setParametersListVisible(canDisplay: Boolean) {
+        if (parametersList.isNotEmpty()) {
+            _showParametersList.postValue(!canDisplay)
         }
     }
 

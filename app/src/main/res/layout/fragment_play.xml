@@ -60,6 +60,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <include
+            android:id="@+id/layoutParameters"
+            layout="@layout/layout_parameters_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:viewModel="@{viewModel}"
+            app:layout_constraintTop_toBottomOf="@id/layoutHeaders"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonPlayAction"
             android:layout_width="wrap_content"

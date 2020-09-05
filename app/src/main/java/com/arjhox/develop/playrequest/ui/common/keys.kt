@@ -1,3 +1,4 @@
 package com.arjhox.develop.playrequest.ui.common
 
-val headerKey = "header"
+const val HEADER_KEY = "header"
+const val PARAMETER_KEY = "parameter"

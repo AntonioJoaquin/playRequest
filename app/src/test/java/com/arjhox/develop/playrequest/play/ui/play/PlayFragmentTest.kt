@@ -12,6 +12,7 @@ import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.play.ui.setTextInTextView
 import com.arjhox.develop.playrequest.ui.common.Header
+import com.arjhox.develop.playrequest.ui.common.Parameter
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragment
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragmentDirections
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
@@ -99,6 +100,15 @@ class PlayFragmentTest: KoinTest {
         val action = PlayFragmentDirections.openHeaderDialogAction(Header())
 
         onView(withId(R.id.buttonAddHeader))
+            .perform(ViewActions.click())
+        verify(navController).navigate(action)
+    }
+
+    @Test
+    fun `when click on ADD_PARAMS should open param dialog`() {
+        val action = PlayFragmentDirections.openParameterDialogAction(Parameter())
+
+        onView(withId(R.id.buttonAddParameter))
             .perform(ViewActions.click())
         verify(navController).navigate(action)
     }

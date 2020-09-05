@@ -19,6 +19,15 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/headerDialog" />
+
+        <action
+            android:id="@+id/openParameterDialogAction"
+            app:destination="@id/parameterDialog"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/parameterDialog" />
     </fragment>
 
     <dialog
@@ -30,5 +39,16 @@
         <argument
             android:name="header"
             app:argType="com.arjhox.develop.playrequest.ui.common.HeaderModel" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/parameterDialog"
+        android:name="com.arjhox.develop.playrequest.ui.main.play.parameter.ParameterDialog"
+        android:label="parameter_dialog"
+        tools:layout="@layout/dialog_parameter" >
+
+        <argument
+            android:name="parameter"
+            app:argType="com.arjhox.develop.playrequest.ui.common.ParameterModel" />
     </dialog>
 </navigation>
