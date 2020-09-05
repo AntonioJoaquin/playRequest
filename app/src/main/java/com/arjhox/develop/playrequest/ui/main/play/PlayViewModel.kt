@@ -18,15 +18,11 @@ class PlayViewModel(
 
     // region Navigation Variables
 
-    private val _openHeaderDialogEvent = MutableLiveData<Event<HeaderModel>>()
-    val openHeaderDialogEvent: LiveData<Event<HeaderModel>>
-        get() = _openHeaderDialogEvent
+    private val _openDialogEvent = MutableLiveData<Event<*>>()
+    val openDialogEvent: LiveData<Event<*>>
+        get() = _openDialogEvent
 
-    private val _openParameterDialogEvent = MutableLiveData<Event<ParameterModel>>()
-    val openParameterDialogEvent: LiveData<Event<ParameterModel>>
-        get() = _openParameterDialogEvent
-
-    // endregion
+     // endregion
 
 
     // region Show Variables
@@ -109,10 +105,10 @@ class PlayViewModel(
     }
 
     fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
-        _openHeaderDialogEvent.postValue(Event(headerModel))
+        _openDialogEvent.postValue(Event(headerModel))
 
     fun openParameterDialogClicked(parameter: ParameterModel = Parameter()) =
-        _openParameterDialogEvent.postValue(Event(parameter))
+        _openDialogEvent.postValue(Event(parameter))
 
 
     fun setRequestPath(newRequestPath: String) =
@@ -175,6 +171,8 @@ class PlayViewModel(
         if (!parametersList.contains(parameter)) {
             parametersList.add(parameter)
             _parameters.postValue(parametersList)
+        } else {
+            _showToastMessageEvent.postValue(Event(R.string.element_already_exists))
         }
     }
 

@@ -58,7 +58,7 @@ fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
 }
 
 @BindingAdapter("items")
-fun RecyclerView.items(data: List<Header>?) {
+fun RecyclerView.headersItems(data: List<Header>?) {
     (adapter as? HeaderAdapter)?.let {
         it.items = data ?: emptyList()
     }
@@ -107,7 +107,7 @@ fun TextInputLayout.showKeyInput(key: String?) {
 @BindingAdapter("showKeyInputError")
 fun TextInputLayout.showKeyInputError(key: String?) {
     error = if (key == null) {
-        "Header key is necessary"
+        context.resources.getString(R.string.dialog_key_required)
     } else {
         null
     }
@@ -115,8 +115,8 @@ fun TextInputLayout.showKeyInputError(key: String?) {
 
 @BindingAdapter("showValueInputError")
 fun TextInputLayout.showValueInputError(value: String?) {
-    error = if (value==null) {
-        "Header value is necessary"
+    error = if (value == null) {
+        context.resources.getString(R.string.dialog_value_required)
     } else {
         null
     }

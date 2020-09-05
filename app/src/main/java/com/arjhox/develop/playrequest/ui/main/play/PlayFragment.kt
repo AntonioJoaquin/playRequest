@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
@@ -32,20 +33,14 @@ class PlayFragment : Fragment() {
 
     private val headerAdapter = HeaderAdapter(
         HeaderListener(
-            clickListener = { header, position ->
-                viewModel.openHeaderDialogClicked(HeaderItemList(header.key, header.value, position))
-            },
+            clickListener = { viewModel.openHeaderDialogClicked(it) },
             deleteListener = { viewModel.deleteHeaderFromRequest(it) }
         )
     )
     private val parameterAdapter = ParameterAdapter(
         ParameterListener(
-            clickListener = { parameter, position ->
-                viewModel.openParameterDialogClicked(ParameterItemList(parameter.key, parameter.value, position))
-            },
-            deleteListener = { parameter ->
-                viewModel.deleteParameterFromRequest(parameter)
-            }
+            clickListener = { viewModel.openParameterDialogClicked(it) },
+            deleteListener = { viewModel.deleteParameterFromRequest(it) }
         )
     )
 
@@ -74,7 +69,7 @@ class PlayFragment : Fragment() {
             it.lifecycleOwner = this@PlayFragment
             it.viewModel = this.viewModel
             it.layoutHeaders.headerAdapter = this.headerAdapter
-            it.layoutParameters.parameterAdapter = parameterAdapter
+            it.layoutParameters.parameterAdapter = this.parameterAdapter
         }
 
         initListeners()
@@ -99,13 +94,13 @@ class PlayFragment : Fragment() {
     }
 
     private fun initNavigationObservers() {
-        viewModel.openHeaderDialogEvent.observe(viewLifecycleOwner, EventObserver {
-            val action = PlayFragmentDirections.openHeaderDialogAction(it)
-            navController.navigate(action)
-        })
+        viewModel.openDialogEvent.observe(viewLifecycleOwner, EventObserver {
+            val action: NavDirections = if (it is HeaderModel) {
+                PlayFragmentDirections.openHeaderDialogAction(it)
+            } else {
+                PlayFragmentDirections.openParameterDialogAction(it as ParameterModel)
+            }
 
-        viewModel.openParameterDialogEvent.observe(viewLifecycleOwner, EventObserver {
-            val action = PlayFragmentDirections.openParameterDialogAction(it)
             navController.navigate(action)
         })
     }
@@ -117,33 +112,41 @@ class PlayFragment : Fragment() {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 if (navBackStackEntry?.savedStateHandle!!.contains(HEADER_KEY)) {
-                    headerModelFromDialog = navBackStackEntry.savedStateHandle.get<Header>(HEADER_KEY)
-                    headerModelFromDialog?.let {
-                        if (headerModelFromDialog is Header) {
-                            viewModel.insertNewHeaderToRequest(it as Header)
-                        } else if (it is HeaderItemList) {
-                            viewModel.updateHeaderToRequest(it)
-                        }
-                    }
-
-                    navBackStackEntry.savedStateHandle.remove<Header>(HEADER_KEY)
+                    getHeader(navBackStackEntry)
                 } else if (navBackStackEntry.savedStateHandle.contains(PARAMETER_KEY)) {
-                    parameterModelFromDialog = navBackStackEntry.savedStateHandle.get<Parameter>(PARAMETER_KEY)
-                    parameterModelFromDialog?.let {
-                        if (parameterModelFromDialog is Parameter) {
-                            viewModel.insertNewParameterToRequest(it as Parameter)
-                        } else if (it is ParameterItemList) {
-                            viewModel.updateParameterToRequest(it)
-                        }
-                    }
-
-                    navBackStackEntry.savedStateHandle.remove<Parameter>(PARAMETER_KEY)
+                    getParameter(navBackStackEntry)
                 }
 
             }
         }
 
         navBackStackEntry?.lifecycle?.addObserver(observer)
+    }
+
+    private fun getHeader(navBackStackEntry: NavBackStackEntry) {
+        headerModelFromDialog = navBackStackEntry.savedStateHandle.get<Header>(HEADER_KEY)
+        headerModelFromDialog?.let {
+            if (headerModelFromDialog is Header) {
+                viewModel.insertNewHeaderToRequest(it as Header)
+            } else if (it is HeaderItemList) {
+                viewModel.updateHeaderToRequest(it)
+            }
+        }
+
+        navBackStackEntry.savedStateHandle.remove<Header>(HEADER_KEY)
+    }
+
+    private fun getParameter(navBackStackEntry: NavBackStackEntry) {
+        parameterModelFromDialog = navBackStackEntry.savedStateHandle.get<Parameter>(PARAMETER_KEY)
+        parameterModelFromDialog?.let {
+            if (parameterModelFromDialog is Parameter) {
+                viewModel.insertNewParameterToRequest(it as Parameter)
+            } else if (it is ParameterItemList) {
+                viewModel.updateParameterToRequest(it)
+            }
+        }
+
+        navBackStackEntry.savedStateHandle.remove<Parameter>(PARAMETER_KEY)
     }
 
 }

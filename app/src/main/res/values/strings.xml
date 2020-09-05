@@ -12,6 +12,9 @@
     <string name="add_parameter">Add Parameter</string>
     
     <string name="element_already_exists">The element already exists in the list</string>
+
+    <string name="dialog_key_required">Item key is required</string>
+    <string name="dialog_value_required">Item value is required</string>
     
     <!-- endregion -->
 
