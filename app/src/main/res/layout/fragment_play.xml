@@ -12,10 +12,6 @@
         <variable
             name="viewModel"
             type="com.arjhox.develop.playrequest.ui.main.play.PlayViewModel" />
-
-        <variable
-            name="parameterAdapter"
-            type="com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,50 +60,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
-            android:id="@+id/buttonAddParameter"
+        <include
+            android:id="@+id/layoutParameters"
+            layout="@layout/layout_parameters_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="ADD PARAMETER"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:background="@drawable/button_background_add_element"
+            app:viewModel="@{viewModel}"
             app:layout_constraintTop_toBottomOf="@id/layoutHeaders"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/buttonShowParameter" />
-
-        <ImageButton
-            android:id="@+id/buttonShowParameter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:padding="12dp"
-            app:srcCompat="@drawable/ic_show"
-            android:background="@drawable/button_background_add_element"
-            android:onClick="@{() -> viewModel.setParametersListVisible(viewModel.showParametersList)}"
-            app:show="@{viewModel.parameters}"
-            app:setShowListIcon="@{viewModel.showParametersList}"
-            app:layout_constraintTop_toTopOf="@id/buttonAddParameter"
-            app:layout_constraintBottom_toBottomOf="@id/buttonAddParameter"
-            app:layout_constraintStart_toEndOf="@id/buttonAddParameter"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewParameter"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_margin="8dp"
-            android:layout_marginTop="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:bindAdapter="@{parameterAdapter}"
-            app:items="@{viewModel.parameters}"
-            app:showByData="@{viewModel.parameters}"
-            app:showByButton="@{viewModel.showParametersList}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonAddParameter"
-            tools:listitem="@layout/item_parameter" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonPlayAction"
