@@ -126,32 +126,24 @@ class PlayViewModelTest {
         testObserver.assertComplete()
         testObserver.assertNoErrors()
         testObserver.assertResult(headersMap)
-
-
     }
 
     @Test
-    fun `makeRequest should create a Request object with path and headers`() {
-        val path = "example path"
-        val headersList = listOf(
-            Header("key1", "value1"),
-            Header("key2", "value2")
+    fun `mapParameters should convert parameters list to a map`() {
+        val parametersList = listOf(
+            Parameter("key1", "value1"),
+            Parameter("key2", "value2")
         )
-        val request = Request(
-            path,
-            mapOf(
-                "key1" to "value1",
-                "key2" to "value2"
-            )
+        val parametersMap = mapOf(
+            "key1" to "value1",
+            "key2" to "value2"
         )
 
-        val testObserver = playViewModel.makeRequest(path, headersList).test()
+        val testObserver = playViewModel.mapParameters(parametersList).test()
 
         testObserver.assertComplete()
         testObserver.assertNoErrors()
-        testObserver.assertResult(request)
-
-
+        testObserver.assertResult(parametersMap)
     }
 
 

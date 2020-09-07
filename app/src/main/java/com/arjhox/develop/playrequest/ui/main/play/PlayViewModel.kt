@@ -10,6 +10,7 @@ import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.common.*
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 
 class PlayViewModel(
     private val playRequestUseCase: PlayRequestUseCase,
@@ -88,7 +89,12 @@ class PlayViewModel(
         _loading.postValue(LoadingState.LOADING)
 
         disposables.add(
-            makeRequest(requestPath, headersList)
+            Single.zip<Map<String, String>, Map<String, String>, Request>(
+                mapHeaders(headersList),
+                mapParameters(parametersList),
+                BiFunction { headersMap, parametersMap ->
+                    Request(requestPath, headersMap, parametersMap)
+                })
                 .flatMap { request -> playRequestUseCase.playRequest(request.toRequestDomain()) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -115,25 +121,17 @@ class PlayViewModel(
         this._requestPath.postValue(newRequestPath)
 
 
-    fun makeRequest(path: String, headers: List<Header> = headersList): Single<Request> {
-        return mapHeaders(headers)
-            .map {
-                    headersMap -> Request(path, headersMap)
-            }
-    }
-
-
     // region HeaderAdapter
 
     fun mapHeaders(headers: List<Header>): Single<Map<String, String>> {
-        return Single.create { emitter ->
+        return Single.create {
             val headersMap = mutableMapOf<String, String>()
 
             for (header in headers) {
                 headersMap[header.key] = header.value
             }
 
-            emitter.onSuccess(headersMap)
+            it.onSuccess(headersMap)
         }
     }
 
@@ -166,6 +164,18 @@ class PlayViewModel(
 
 
     // region ParameterAdapter
+
+    fun mapParameters(parametersList: List<Parameter>): Single<Map<String, String>> {
+        return Single.create {
+            val parametersMap = mutableMapOf<String, String>()
+
+            for (parameter in parametersList) {
+                parametersMap.put(parameter.key, parameter.value)
+            }
+
+            it.onSuccess(parametersMap)
+        }
+    }
 
     fun insertNewParameterToRequest(parameter: Parameter) {
         if (!parametersList.contains(parameter)) {

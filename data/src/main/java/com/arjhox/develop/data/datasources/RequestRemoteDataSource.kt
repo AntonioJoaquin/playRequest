@@ -7,6 +7,7 @@ import com.arjhox.develop.data.services.CustomRequestResponseRequest
 import com.arjhox.develop.data.services.VolleyRequestQueue
 import com.arjhox.develop.domain.models.RequestResponse
 import io.reactivex.Single
+import org.json.JSONObject
 
 
 interface RequestRemoteDataSource {
@@ -22,7 +23,7 @@ class RequestRemoteDataSourceImpl(
 
     override fun playRequest(request: RequestData): Single<RequestResponse> {
         return Single.create { emitter ->
-            val jsonObjectRequest = object: CustomRequestResponseRequest(Method.GET, request.path, null,
+            val jsonObjectRequest = object: CustomRequestResponseRequest(Method.GET, concatParametersToPath(request.path, request.parameters), null,
                 Response.Listener {
                     emitter.onSuccess(it)
                 },
@@ -38,4 +39,23 @@ class RequestRemoteDataSourceImpl(
             VolleyRequestQueue.getInstance(context).addToRequestQueue(jsonObjectRequest)
         }
     }
+
+
+    private fun concatParametersToPath(path: String, parameters: Map<String, String>): String {
+        return if (parameters.isEmpty()) {
+            path
+        } else {
+            val stringBuilder = StringBuilder(path)
+            stringBuilder.append("?")
+
+            for (parameter in parameters) {
+                stringBuilder.append(parameter.key).append("=").append(parameter.value).append("&")
+            }
+
+            val finalPath = stringBuilder.toString()
+
+            finalPath.substring(0, finalPath.length-1)
+        }
+    }
+
 }
