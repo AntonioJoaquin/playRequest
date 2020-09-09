@@ -108,7 +108,7 @@ class PlayViewModel(
                 mapHeaders(headersList),
                 mapParameters(parametersList),
                 BiFunction { headersMap, parametersMap ->
-                    Request(requestPath, headersMap, parametersMap)
+                    Request(requestType, requestPath, headersMap, parametersMap)
                 })
                 .flatMap { request -> playRequestUseCase.playRequest(request.toRequestDomain()) }
                 .subscribeOn(schedulerProvider.io())
