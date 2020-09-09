@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="com.arjhox.develop.playrequest.ui.main.play.header.HeaderDialogViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:itemSelected="@{viewModel.headerTypeSelectedObserver}"
+            app:bindAdapter="@{adapter}"
             app:init="@{viewModel.headerModel.key}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

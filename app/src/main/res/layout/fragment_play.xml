@@ -12,6 +12,10 @@
         <variable
             name="viewModel"
             type="com.arjhox.develop.playrequest.ui.main.play.PlayViewModel" />
+
+        <variable
+            name="requestTypeAdapter"
+            type="com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,18 +23,30 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.play.PlayFragment">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTextRequestPath"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/appCompatSpinnerRequestType"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginStart="16dp"
+            app:itemSelected="@{viewModel.requestTypeSelectedObserver}"
+            app:bindAdapter="@{requestTypeAdapter}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/textInputEditTextRequestPath"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextRequestPath"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="4dp"
             android:layout_marginEnd="16dp"
             android:inputType="text"
             android:singleLine="true"
             android:hint="@string/hint_write_request"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/appCompatSpinnerRequestType"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView

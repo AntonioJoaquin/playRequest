@@ -49,7 +49,7 @@ class SimpleSpinnerAdapter(
 
 
         fun bind(item: String): ItemSimpleSpinnerBinding? {
-            binding?.headerType = item
+            binding?.item = item
 
             binding?.executePendingBindings()
 

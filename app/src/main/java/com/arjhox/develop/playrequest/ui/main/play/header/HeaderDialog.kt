@@ -11,10 +11,12 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.arjhox.develop.domain.common.headerTypes
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.DialogHeaderBinding
 import com.arjhox.develop.playrequest.ui.common.EventObserver
 import com.arjhox.develop.playrequest.ui.common.HEADER_KEY
+import com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HeaderDialog: DialogFragment() {
@@ -24,6 +26,8 @@ class HeaderDialog: DialogFragment() {
 
     private lateinit var navController: NavController
     private lateinit var binding: DialogHeaderBinding
+
+    private val adapter = SimpleSpinnerAdapter(headerTypes)
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -47,6 +51,7 @@ class HeaderDialog: DialogFragment() {
         binding.let {
             it.lifecycleOwner = this@HeaderDialog
             it.viewModel = viewModel
+            it.adapter = adapter
         }
 
         viewModel.init(args.header)

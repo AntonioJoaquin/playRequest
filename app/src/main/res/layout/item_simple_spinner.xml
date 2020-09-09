@@ -4,7 +4,7 @@
     <data>
 
         <variable
-            name="headerType"
+            name="item"
             type="String" />
     </data>
 
@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{headerType}"
+            android:text="@{item}"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Item" />

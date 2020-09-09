@@ -12,11 +12,13 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import com.arjhox.develop.domain.common.requestTypes
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
 import com.arjhox.develop.playrequest.ui.common.*
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter
+import com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter
 import com.arjhox.develop.playrequest.ui.main.play.header.HeaderListener
 import com.arjhox.develop.playrequest.ui.main.play.parameter.ParameterListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +33,7 @@ class PlayFragment : Fragment() {
     private var headerModelFromDialog: HeaderModel? = null
     private var parameterModelFromDialog: ParameterModel? = null
 
+    private val requestTypeAdapter = SimpleSpinnerAdapter(requestTypes)
     private val headerAdapter = HeaderAdapter(
         HeaderListener(
             clickListener = { viewModel.openHeaderDialogClicked(it) },
@@ -68,6 +71,7 @@ class PlayFragment : Fragment() {
         binding?.let {
             it.lifecycleOwner = this@PlayFragment
             it.viewModel = this.viewModel
+            it.requestTypeAdapter = this.requestTypeAdapter
             it.layoutHeaders.headerAdapter = this.headerAdapter
             it.layoutParameters.parameterAdapter = this.parameterAdapter
         }

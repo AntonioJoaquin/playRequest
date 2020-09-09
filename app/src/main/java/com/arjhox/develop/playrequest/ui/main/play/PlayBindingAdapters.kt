@@ -82,6 +82,11 @@ fun AppCompatSpinner.itemSelected(result: ObservableField<String>) {
     }
 }
 
+@BindingAdapter("bindAdapter")
+fun AppCompatSpinner.bindAdapter(adapter: SimpleSpinnerAdapter) {
+    this.adapter = adapter
+}
+
 @BindingAdapter("init")
 fun AppCompatSpinner.init(item: String?) {
     adapter = SimpleSpinnerAdapter(headerTypes.sorted())

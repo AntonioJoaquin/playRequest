@@ -1,8 +1,11 @@
 package com.arjhox.develop.playrequest.ui.main.play
 
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.arjhox.develop.domain.common.GET
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
@@ -43,6 +46,9 @@ class PlayViewModel(
     // endregion
 
 
+    val requestTypeSelectedObserver = ObservableField<String>()
+    private var requestType = GET
+
     private val _requestPath = MutableLiveData<String>()
     val requestPath: LiveData<String>
         get() = _requestPath
@@ -73,6 +79,15 @@ class PlayViewModel(
 
         _showHeadersList.postValue(true)
         _showParametersList.postValue(true)
+
+        requestTypeSelectedObserver.apply {
+            addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+                override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                    requestType = this@apply.get().toString()
+                }
+
+            })
+        }
 
     }
 
