@@ -12,8 +12,8 @@ import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.play.ui.play.di.configureTestAppModules
 import com.arjhox.develop.playrequest.play.ui.setTextInTextView
-import com.arjhox.develop.playrequest.ui.common.Header
-import com.arjhox.develop.playrequest.ui.common.Parameter
+import com.arjhox.develop.playrequest.ui.common.models.Header
+import com.arjhox.develop.playrequest.ui.common.models.Parameter
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragment
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragmentDirections
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
