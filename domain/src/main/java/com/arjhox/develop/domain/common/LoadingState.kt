@@ -2,8 +2,8 @@ package com.arjhox.develop.domain.common
 
 @Suppress("DataClassPrivateConstructor")
 data class LoadingState private constructor(
-    private val status: Status,
-    private val message: String? = null
+    val status: Status,
+    val message: String? = null
 ) {
 
     companion object {

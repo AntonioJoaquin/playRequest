@@ -2,6 +2,7 @@
     <string name="app_name">PlayRequest</string>
 
     <string name="ok">OK</string>
+    <string name="points">…</string>
 
 
     <!-- region PlayFragment -->
@@ -31,6 +32,13 @@
 
     <string name="hint_parameter_key">Parameter Key</string>
     <string name="hint_parameter_value">Parameter Value</string>
+
+    <!-- endregion -->
+
+
+    <!-- region LoadingDialog -->
+
+    <string name="text_loading">Loading</string>
 
     <!-- endregion -->
 
