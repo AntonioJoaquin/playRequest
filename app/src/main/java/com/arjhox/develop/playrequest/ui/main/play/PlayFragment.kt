@@ -8,6 +8,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.Observer
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -16,6 +17,8 @@ import com.arjhox.develop.domain.common.requestTypes
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
 import com.arjhox.develop.playrequest.ui.common.*
+import com.arjhox.develop.playrequest.ui.common.base.BaseFragment
+import com.arjhox.develop.playrequest.ui.common.views.LoadingDialog
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter
@@ -23,7 +26,7 @@ import com.arjhox.develop.playrequest.ui.main.play.header.HeaderListener
 import com.arjhox.develop.playrequest.ui.main.play.parameter.ParameterListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PlayFragment : Fragment() {
+class PlayFragment : BaseFragment() {
 
     private val viewModel by viewModel<PlayViewModel>()
 
@@ -94,6 +97,10 @@ class PlayFragment : Fragment() {
             context?.showToast(resources.getString(it))
         })
 
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            manageLoadingState(it)
+        })
+
         initNavigationObservers()
     }
 
@@ -120,7 +127,6 @@ class PlayFragment : Fragment() {
                 } else if (navBackStackEntry.savedStateHandle.contains(PARAMETER_KEY)) {
                     getParameter(navBackStackEntry)
                 }
-
             }
         }
 

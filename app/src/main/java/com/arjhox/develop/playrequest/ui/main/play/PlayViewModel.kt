@@ -185,7 +185,7 @@ class PlayViewModel(
             val parametersMap = mutableMapOf<String, String>()
 
             for (parameter in parametersList) {
-                parametersMap.put(parameter.key, parameter.value)
+                parametersMap[parameter.key] = parameter.value
             }
 
             it.onSuccess(parametersMap)
