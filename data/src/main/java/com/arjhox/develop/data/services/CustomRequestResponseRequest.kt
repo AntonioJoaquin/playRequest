@@ -24,6 +24,10 @@ open class CustomRequestResponseRequest(
     errorListener: Response.ErrorListener
 ): JsonRequest<RequestResponse>(method, url, jsonRequest?.toString(), listener, errorListener) {
 
+    private val htmlBeginner = "<!DOCTYPE"
+    private val jsonArrayOpenChar = '['
+
+
     override fun parseNetworkResponse(response: NetworkResponse?): Response<RequestResponse> {
         return try {
             val requestResponse = createRequestResponse(response)
@@ -56,10 +60,10 @@ open class CustomRequestResponseRequest(
             Charset.forName(HttpHeaderParser.parseCharset(response?.headers))
         )
 
-        val jsonResponsePretty = if (jsonResponse[0] == '[') {
-            convertToPrettyString(JSONArray(jsonResponse))
-        } else {
-            convertToPrettyString(JSONObject(jsonResponse))
+        val jsonResponsePretty = when {
+            jsonResponse.contains(htmlBeginner) -> jsonResponse
+            jsonResponse[0] == jsonArrayOpenChar -> convertToPrettyString(JSONArray(jsonResponse))
+            else -> convertToPrettyString(JSONObject(jsonResponse))
         }
 
         return RequestResponse(jsonHeader, jsonResponsePretty)
@@ -73,7 +77,7 @@ open class CustomRequestResponseRequest(
             Charsets.UTF_8
         )
 
-        return if (jsonErrorResponse.contains("<!DOCTYPE")) {
+        return if (jsonErrorResponse.contains(htmlBeginner)) {
             RequestErrorResponse(statusCode, jsonHeader, jsonErrorResponse)
         } else {
             val jsonErrorResponsePretty = convertToPrettyString(JSONObject(jsonErrorResponse))
