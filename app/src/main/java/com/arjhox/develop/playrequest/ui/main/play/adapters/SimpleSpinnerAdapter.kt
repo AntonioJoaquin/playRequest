@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.ItemSimpleSpinnerBinding
-import com.arjhox.develop.playrequest.ui.common.bindingInflate
+import com.arjhox.develop.playrequest.ui.common.extensions.bindingInflate
 
 class SimpleSpinnerAdapter(
     private val items: List<String>

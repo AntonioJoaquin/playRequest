@@ -38,7 +38,7 @@
 
         <argument
             android:name="header"
-            app:argType="com.arjhox.develop.playrequest.ui.common.HeaderModel" />
+            app:argType="com.arjhox.develop.playrequest.ui.common.models.HeaderModel" />
     </dialog>
 
     <dialog
@@ -49,6 +49,6 @@
 
         <argument
             android:name="parameter"
-            app:argType="com.arjhox.develop.playrequest.ui.common.ParameterModel" />
+            app:argType="com.arjhox.develop.playrequest.ui.common.models.ParameterModel" />
     </dialog>
 </navigation>

@@ -1,10 +1,8 @@
 package com.arjhox.develop.playrequest.play.ui.play
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -16,16 +14,11 @@ import com.arjhox.develop.playrequest.play.ui.play.di.configureTestAppModules
 import com.arjhox.develop.playrequest.play.ui.setTextInTextView
 import com.arjhox.develop.playrequest.ui.common.Header
 import com.arjhox.develop.playrequest.ui.common.Parameter
-import com.arjhox.develop.playrequest.ui.common.views.LoadingDialog
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragment
 import com.arjhox.develop.playrequest.ui.main.play.PlayFragmentDirections
 import com.arjhox.develop.playrequest.ui.main.play.PlayViewModel
-import com.arjhox.develop.playrequest.ui.main.play.playModule
-import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
-import io.reactivex.Single
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -50,8 +43,6 @@ class PlayFragmentTest: KoinTest {
     private lateinit var playRequestUseCase: PlayRequestUseCase
     private lateinit var navController: NavController
 
-    private lateinit var loadingDialog: LoadingDialog
-
 
     @Before
     fun setUp() {
@@ -65,8 +56,6 @@ class PlayFragmentTest: KoinTest {
 
         playRequestUseCase = mock()
         navController = mock()
-
-        loadingDialog = LoadingDialog(InstrumentationRegistry.getInstrumentation().context)
 
         launchFragmentInContainer {
             PlayFragment().also {

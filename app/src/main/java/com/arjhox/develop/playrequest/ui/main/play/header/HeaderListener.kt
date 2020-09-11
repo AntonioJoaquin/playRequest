@@ -1,7 +1,8 @@
 package com.arjhox.develop.playrequest.ui.main.play.header
 
-import com.arjhox.develop.playrequest.ui.common.Header
-import com.arjhox.develop.playrequest.ui.common.HeaderItemList
+import com.arjhox.develop.playrequest.ui.common.models.Header
+import com.arjhox.develop.playrequest.ui.common.models.HeaderItemList
+
 
 class HeaderListener(
     private val clickListener: (headerItemList: HeaderItemList) -> Unit,

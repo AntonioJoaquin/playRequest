@@ -14,8 +14,8 @@ import com.arjhox.develop.domain.common.CUSTOM_HEADER
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.common.headerTypes
 import com.arjhox.develop.playrequest.R
-import com.arjhox.develop.playrequest.ui.common.Header
-import com.arjhox.develop.playrequest.ui.common.Parameter
+import com.arjhox.develop.playrequest.ui.common.models.Header
+import com.arjhox.develop.playrequest.ui.common.models.Parameter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter

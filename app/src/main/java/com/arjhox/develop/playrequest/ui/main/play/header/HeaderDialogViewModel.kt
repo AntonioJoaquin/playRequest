@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.CUSTOM_HEADER
 import com.arjhox.develop.domain.common.headerTypes
 import com.arjhox.develop.playrequest.ui.common.Event
-import com.arjhox.develop.playrequest.ui.common.HeaderModel
+import com.arjhox.develop.playrequest.ui.common.models.HeaderModel
 
 class HeaderDialogViewModel: ViewModel() {
 

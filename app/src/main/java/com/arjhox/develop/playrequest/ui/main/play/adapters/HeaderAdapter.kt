@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.ItemHeaderBinding
-import com.arjhox.develop.playrequest.ui.common.Header
-import com.arjhox.develop.playrequest.ui.common.bindingInflate
+import com.arjhox.develop.playrequest.ui.common.extensions.bindingInflate
+import com.arjhox.develop.playrequest.ui.common.models.Header
 import com.arjhox.develop.playrequest.ui.main.play.header.HeaderListener
 
 class HeaderAdapter(

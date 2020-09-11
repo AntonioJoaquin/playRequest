@@ -25,9 +25,7 @@ class RequestRepositoryTest {
 
     @Test
     fun `playRequest from repository should call playRequest from request remote dataSource`() {
-        val path = "example"
-        val headers = mapOf<String, String>()
-        val request = RequestDomain(path, headers)
+        val request = RequestDomain()
 
         requestRepository.playRequest(request)
 

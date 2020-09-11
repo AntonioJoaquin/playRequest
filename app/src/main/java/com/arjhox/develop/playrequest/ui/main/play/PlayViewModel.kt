@@ -10,7 +10,10 @@ import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
-import com.arjhox.develop.playrequest.ui.common.*
+import com.arjhox.develop.playrequest.ui.common.Event
+import com.arjhox.develop.playrequest.ui.common.SchedulerProvider
+import com.arjhox.develop.playrequest.ui.common.models.*
+import com.arjhox.develop.playrequest.ui.common.toRequestDomain
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction

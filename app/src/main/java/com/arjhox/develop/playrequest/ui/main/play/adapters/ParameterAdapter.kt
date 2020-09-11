@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.ItemParameterBinding
-import com.arjhox.develop.playrequest.ui.common.Parameter
-import com.arjhox.develop.playrequest.ui.common.bindingInflate
+import com.arjhox.develop.playrequest.ui.common.extensions.bindingInflate
+import com.arjhox.develop.playrequest.ui.common.models.Parameter
 import com.arjhox.develop.playrequest.ui.main.play.parameter.ParameterListener
 
 class ParameterAdapter(

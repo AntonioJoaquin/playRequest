@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.playrequest.ui.common.Event
-import com.arjhox.develop.playrequest.ui.common.ParameterModel
+import com.arjhox.develop.playrequest.ui.common.models.ParameterModel
 
 class ParameterDialogViewModel: ViewModel() {
 

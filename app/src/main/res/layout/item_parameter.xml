@@ -8,7 +8,7 @@
 
         <variable
             name="parameter"
-            type="com.arjhox.develop.playrequest.ui.common.Parameter" />
+            type="com.arjhox.develop.playrequest.ui.common.models.Parameter" />
 
         <variable
             name="position"

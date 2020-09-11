@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
@@ -16,9 +15,13 @@ import androidx.navigation.findNavController
 import com.arjhox.develop.domain.common.requestTypes
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.databinding.FragmentPlayBinding
-import com.arjhox.develop.playrequest.ui.common.*
+import com.arjhox.develop.playrequest.ui.common.EventObserver
+import com.arjhox.develop.playrequest.ui.common.HEADER_KEY
+import com.arjhox.develop.playrequest.ui.common.PARAMETER_KEY
 import com.arjhox.develop.playrequest.ui.common.base.BaseFragment
-import com.arjhox.develop.playrequest.ui.common.views.LoadingDialog
+import com.arjhox.develop.playrequest.ui.common.extensions.bindingInflate
+import com.arjhox.develop.playrequest.ui.common.extensions.showToast
+import com.arjhox.develop.playrequest.ui.common.models.*
 import com.arjhox.develop.playrequest.ui.main.play.adapters.HeaderAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.ParameterAdapter
 import com.arjhox.develop.playrequest.ui.main.play.adapters.SimpleSpinnerAdapter
