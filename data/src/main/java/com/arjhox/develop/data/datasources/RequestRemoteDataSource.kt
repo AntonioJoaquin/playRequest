@@ -3,8 +3,10 @@ package com.arjhox.develop.data.datasources
 import android.content.Context
 import com.android.volley.Request
 import com.android.volley.Response
+import com.arjhox.develop.data.models.RequestErrorResponse
 import com.arjhox.develop.data.services.CustomRequestResponseRequest
 import com.arjhox.develop.data.services.VolleyRequestQueue
+import com.arjhox.develop.data.toRequestErrorResponseDomain
 import com.arjhox.develop.domain.common.GET
 import com.arjhox.develop.domain.models.RequestResponse
 import io.reactivex.Single
@@ -33,7 +35,11 @@ class RequestRemoteDataSourceImpl(
                     emitter.onSuccess(it)
                 },
                 Response.ErrorListener {
-                    emitter.onError(it)
+                    if (it is RequestErrorResponse) {
+                        emitter.onError(it.toRequestErrorResponseDomain())
+                    } else {
+                        emitter.onError(it)
+                    }
                 }
             ) {
                 override fun getHeaders(): MutableMap<String, String> {

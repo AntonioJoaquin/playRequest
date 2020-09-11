@@ -3,8 +3,10 @@ package com.arjhox.develop.data.services
 import com.android.volley.NetworkResponse
 import com.android.volley.ParseError
 import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonRequest
+import com.arjhox.develop.data.models.RequestErrorResponse
 import com.arjhox.develop.domain.models.RequestResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
@@ -34,6 +36,18 @@ open class CustomRequestResponseRequest(
         }
     }
 
+    override fun parseNetworkError(volleyError: VolleyError?): VolleyError {
+        return try {
+            val requestErrorResponse = createRequestErrorResponse(volleyError)
+
+            requestErrorResponse
+        } catch (e: UnsupportedEncodingException) {
+            ParseError(e)
+        } catch (e: JSONException) {
+            ParseError(e)
+        }
+    }
+
 
     private fun createRequestResponse(response: NetworkResponse?): RequestResponse {
         val jsonHeader = response?.headers.toString()
@@ -49,6 +63,23 @@ open class CustomRequestResponseRequest(
         }
 
         return RequestResponse(jsonHeader, jsonResponsePretty)
+    }
+
+    private fun createRequestErrorResponse(volleyError: VolleyError?): RequestErrorResponse {
+        val statusCode = volleyError?.networkResponse?.statusCode
+        val jsonHeader = volleyError?.networkResponse?.headers.toString()
+        val jsonErrorResponse = String(
+            volleyError?.networkResponse?.data ?: ByteArray(0),
+            Charsets.UTF_8
+        )
+
+        return if (jsonErrorResponse.contains("<!DOCTYPE")) {
+            RequestErrorResponse(statusCode, jsonHeader, jsonErrorResponse)
+        } else {
+            val jsonErrorResponsePretty = convertToPrettyString(JSONObject(jsonErrorResponse))
+
+            RequestErrorResponse(statusCode, jsonHeader, jsonErrorResponsePretty)
+        }
     }
 
     private fun <T>convertToPrettyString(jsonObject: T): String {

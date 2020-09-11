@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.GET
 import com.arjhox.develop.domain.common.LoadingState
+import com.arjhox.develop.domain.models.RequestErrorResponse
 import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
@@ -122,7 +123,12 @@ class PlayViewModel(
                         _requestResult.postValue(it)
                     },
                     {
-                        _loading.postValue(LoadingState.error(it.message))
+                        if (it is RequestErrorResponse) {
+                            _requestResult.postValue(it.errorResponse)
+                            _loading.postValue(LoadingState.error("Error ${it.statusCode}"))
+                        } else {
+                            _loading.postValue(LoadingState.error(it.message))
+                        }
                     }
                 )
         )

@@ -26,8 +26,8 @@ import com.google.android.material.textfield.TextInputLayout
 @BindingAdapter("show")
 fun TextView.show(loadingState: LoadingState?) {
     visibility = when(loadingState) {
-        LoadingState.LOADED -> View.VISIBLE
-        else -> View.GONE
+        LoadingState.LOADING -> View.GONE
+        else -> View.VISIBLE
     }
 }
 
