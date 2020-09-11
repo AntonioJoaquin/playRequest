@@ -128,6 +128,8 @@ class PlayViewModel(
                             _loading.postValue(LoadingState.error("Error ${it.statusCode}"))
                         } else {
                             _loading.postValue(LoadingState.error(it.message))
+
+                            setToastMessage(R.string.error_notification)
                         }
                     }
                 )
@@ -143,6 +145,11 @@ class PlayViewModel(
 
     fun setRequestPath(newRequestPath: String) =
         this._requestPath.postValue(newRequestPath)
+
+
+    private fun setToastMessage(message: Int) {
+        _showToastMessageEvent.postValue(Event(message))
+    }
 
 
     // region HeaderAdapter
@@ -164,7 +171,7 @@ class PlayViewModel(
             headersList.add(header)
             _headers.postValue(headersList)
         } else {
-            _showToastMessageEvent.postValue(Event(R.string.element_already_exists))
+            setToastMessage(R.string.element_already_exists)
         }
     }
 
@@ -206,7 +213,7 @@ class PlayViewModel(
             parametersList.add(parameter)
             _parameters.postValue(parametersList)
         } else {
-            _showToastMessageEvent.postValue(Event(R.string.element_already_exists))
+            setToastMessage(R.string.element_already_exists)
         }
     }
 
