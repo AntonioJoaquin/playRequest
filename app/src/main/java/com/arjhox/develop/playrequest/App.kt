@@ -3,6 +3,7 @@ package com.arjhox.develop.playrequest
 import android.app.Application
 import com.arjhox.develop.data.services.dataModule
 import com.arjhox.develop.playrequest.ui.main.play.playModule
+import com.arjhox.develop.playrequest.ui.result.resultModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -24,6 +25,7 @@ class App: Application() {
             modules(appModule)
             modules(dataModule)
             modules(playModule)
+            modules(resultModule)
         }
     }
 

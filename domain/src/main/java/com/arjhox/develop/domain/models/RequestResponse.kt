@@ -6,6 +6,7 @@ package com.arjhox.develop.domain.models
     At the moment these types are kept for a basic implementation
  */
 data class RequestResponse (
+    val statusCode: Int?,
     val headers: String,
     val response: String
 )

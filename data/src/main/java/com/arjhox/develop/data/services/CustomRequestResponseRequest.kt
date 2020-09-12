@@ -54,6 +54,7 @@ open class CustomRequestResponseRequest(
 
 
     private fun createRequestResponse(response: NetworkResponse?): RequestResponse {
+        val statusCode = response?.statusCode
         val jsonHeader = response?.headers.toString()
         val jsonResponse = String(
             response?.data ?: ByteArray(0),
@@ -66,7 +67,7 @@ open class CustomRequestResponseRequest(
             else -> convertToPrettyString(JSONObject(jsonResponse))
         }
 
-        return RequestResponse(jsonHeader, jsonResponsePretty)
+        return RequestResponse(statusCode, jsonHeader, jsonResponsePretty)
     }
 
     private fun createRequestErrorResponse(volleyError: VolleyError?): RequestErrorResponse {

@@ -104,15 +104,15 @@ class PlayFragment : BaseFragment() {
             manageLoadingState(it)
         })
 
-        initNavigationObservers()
+        initNavigationObserver()
     }
 
-    private fun initNavigationObservers() {
-        viewModel.openDialogEvent.observe(viewLifecycleOwner, EventObserver {
-            val action: NavDirections = if (it is HeaderModel) {
-                PlayFragmentDirections.openHeaderDialogAction(it)
-            } else {
-                PlayFragmentDirections.openParameterDialogAction(it as ParameterModel)
+    private fun initNavigationObserver() {
+        viewModel.navigationEvent.observe(viewLifecycleOwner, EventObserver {
+            val action: NavDirections = when (it) {
+                is HeaderModel -> PlayFragmentDirections.openHeaderDialogAction(it)
+                is ParameterModel -> PlayFragmentDirections.openParameterDialogAction(it)
+                else -> PlayFragmentDirections.goToResultActivityAction(it as RequestResponse)
             }
 
             navController.navigate(action)

@@ -8,13 +8,13 @@ import androidx.lifecycle.ViewModel
 import com.arjhox.develop.domain.common.GET
 import com.arjhox.develop.domain.common.LoadingState
 import com.arjhox.develop.domain.models.RequestErrorResponse
-import com.arjhox.develop.domain.models.RequestResponse
 import com.arjhox.develop.domain.usecases.PlayRequestUseCase
 import com.arjhox.develop.playrequest.R
 import com.arjhox.develop.playrequest.ui.common.Event
 import com.arjhox.develop.playrequest.ui.common.SchedulerProvider
 import com.arjhox.develop.playrequest.ui.common.models.*
 import com.arjhox.develop.playrequest.ui.common.toRequestDomain
+import com.arjhox.develop.playrequest.ui.common.toRequestResponse
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
@@ -26,9 +26,9 @@ class PlayViewModel(
 
     // region Navigation Variables
 
-    private val _openDialogEvent = MutableLiveData<Event<*>>()
-    val openDialogEvent: LiveData<Event<*>>
-        get() = _openDialogEvent
+    private val _navigationEvent = MutableLiveData<Event<*>>()
+    val navigationEvent: LiveData<Event<*>>
+        get() = _navigationEvent
 
      // endregion
 
@@ -120,12 +120,12 @@ class PlayViewModel(
                 .subscribe(
                     {
                         _loading.postValue(LoadingState.LOADED)
-                        _requestResult.postValue(it)
+                        _navigationEvent.postValue(Event(it.toRequestResponse()))
                     },
                     {
                         if (it is RequestErrorResponse) {
-                            _requestResult.postValue(it.errorResponse)
-                            _loading.postValue(LoadingState.error("Error ${it.statusCode}"))
+                            _loading.postValue(LoadingState.error("Error ${it.requestResponse.statusCode}"))
+                            _navigationEvent.postValue(Event(it.requestResponse.toRequestResponse()))
                         } else {
                             _loading.postValue(LoadingState.error(it.message))
 
@@ -137,10 +137,10 @@ class PlayViewModel(
     }
 
     fun openHeaderDialogClicked(headerModel: HeaderModel = Header()) =
-        _openDialogEvent.postValue(Event(headerModel))
+        _navigationEvent.postValue(Event(headerModel))
 
     fun openParameterDialogClicked(parameter: ParameterModel = Parameter()) =
-        _openDialogEvent.postValue(Event(parameter))
+        _navigationEvent.postValue(Event(parameter))
 
 
     fun setRequestPath(newRequestPath: String) =

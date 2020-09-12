@@ -6,18 +6,18 @@
 
 
     <!-- region PlayFragment -->
-    
+
     <string name="hint_write_request">Write your request!</string>
     <string name="button_text_play_request">Play request!</string>
     <string name="add_header">Add Header</string>
     <string name="add_parameter">Add Parameter</string>
-    
+
     <string name="element_already_exists">The element already exists in the list</string>
     <string name="error_notification">An error has occurred</string>
 
     <string name="dialog_key_required">Item key is required</string>
     <string name="dialog_value_required">Item value is required</string>
-    
+
     <!-- endregion -->
 
 

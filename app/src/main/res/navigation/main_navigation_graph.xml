@@ -28,6 +28,12 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/parameterDialog" />
+
+        <action
+            android:id="@+id/goToResultActivityAction"
+            app:destination="@id/resultActivity"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"/>
     </fragment>
 
     <dialog
@@ -51,4 +57,16 @@
             android:name="parameter"
             app:argType="com.arjhox.develop.playrequest.ui.common.models.ParameterModel" />
     </dialog>
+
+
+    <activity
+        android:id="@+id/resultActivity"
+        android:name="com.arjhox.develop.playrequest.ui.result.view.ResultActivity"
+        android:label="result_activity"
+        tools:layout="@layout/activity_result">
+
+        <argument
+            android:name="response"
+            app:argType="com.arjhox.develop.playrequest.ui.common.models.RequestResponse"/>
+    </activity>
 </navigation>

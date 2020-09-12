@@ -9,4 +9,4 @@ import com.arjhox.develop.domain.models.RequestErrorResponse as RequestErrorResp
 fun RequestDomain.toRequestData() = Request(requestType = requestType, path = path, headers = headers, parameters = parameters)
 
 
-fun RequestErrorResponse.toRequestErrorResponseDomain() = RequestErrorResponseDomain(statusCode = statusCode, errorResponse = RequestResponse(headers, errorResponse))
+fun RequestErrorResponse.toRequestErrorResponseDomain() = RequestErrorResponseDomain(requestResponse = RequestResponse(statusCode, headers, errorResponse))
