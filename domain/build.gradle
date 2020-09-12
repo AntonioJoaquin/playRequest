@@ -4,6 +4,11 @@ apply plugin: 'kotlin'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
+    implementation domainLibs.values()
+
+    testImplementation testLibs.values()
 }
 
 sourceCompatibility = "1.8"

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation_graph"
+    app:startDestination="@id/playFragment">
+
+    <fragment
+        android:id="@+id/playFragment"
+        android:name="com.arjhox.develop.playrequest.ui.main.play.PlayFragment"
+        android:label="play_fragment"
+        tools:layout="@layout/fragment_play" >
+
+        <action
+            android:id="@+id/openHeaderDialogAction"
+            app:destination="@id/headerDialog"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/headerDialog" />
+
+        <action
+            android:id="@+id/openParameterDialogAction"
+            app:destination="@id/parameterDialog"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/parameterDialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/headerDialog"
+        android:name="com.arjhox.develop.playrequest.ui.main.play.header.HeaderDialog"
+        android:label="header_dialog"
+        tools:layout="@layout/dialog_header">
+
+        <argument
+            android:name="header"
+            app:argType="com.arjhox.develop.playrequest.ui.common.models.HeaderModel" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/parameterDialog"
+        android:name="com.arjhox.develop.playrequest.ui.main.play.parameter.ParameterDialog"
+        android:label="parameter_dialog"
+        tools:layout="@layout/dialog_parameter" >
+
+        <argument
+            android:name="parameter"
+            app:argType="com.arjhox.develop.playrequest.ui.common.models.ParameterModel" />
+    </dialog>
+</navigation>
