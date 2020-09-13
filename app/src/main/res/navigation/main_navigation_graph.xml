@@ -30,10 +30,10 @@
             app:popUpTo="@id/parameterDialog" />
 
         <action
-            android:id="@+id/goToResultActivityAction"
-            app:destination="@id/resultActivity"
+            android:id="@+id/goToResultFragmentAction"
+            app:destination="@id/resultFragment"
             app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"/>
+            app:exitAnim="@anim/fragment_fade_exit" />
     </fragment>
 
     <dialog
@@ -59,14 +59,14 @@
     </dialog>
 
 
-    <activity
-        android:id="@+id/resultActivity"
-        android:name="com.arjhox.develop.playrequest.ui.result.view.ResultActivity"
-        android:label="result_activity"
-        tools:layout="@layout/activity_result">
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.arjhox.develop.playrequest.ui.result.view.ResultFragment"
+        android:label="result_fragment"
+        tools:layout="@layout/fragment_result">
 
         <argument
             android:name="response"
             app:argType="com.arjhox.develop.playrequest.ui.common.models.RequestResponse"/>
-    </activity>
+    </fragment>
 </navigation>

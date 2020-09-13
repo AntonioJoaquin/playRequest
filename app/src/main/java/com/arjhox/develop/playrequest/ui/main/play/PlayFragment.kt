@@ -35,7 +35,6 @@ class PlayFragment : BaseFragment() {
 
     private var binding: FragmentPlayBinding? = null
 
-    private lateinit var navController: NavController
     private var headerModelFromDialog: HeaderModel? = null
     private var parameterModelFromDialog: ParameterModel? = null
 
@@ -69,7 +68,7 @@ class PlayFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initNavigation(view)
+        initNavigation()
     }
 
 
@@ -112,16 +111,14 @@ class PlayFragment : BaseFragment() {
             val action: NavDirections = when (it) {
                 is HeaderModel -> PlayFragmentDirections.openHeaderDialogAction(it)
                 is ParameterModel -> PlayFragmentDirections.openParameterDialogAction(it)
-                else -> PlayFragmentDirections.goToResultActivityAction(it as RequestResponse)
+                else -> PlayFragmentDirections.goToResultFragmentAction(it as RequestResponse)
             }
 
             navController.navigate(action)
         })
     }
 
-    private fun initNavigation(view: View) {
-        navController = view.findNavController()
-
+    private fun initNavigation() {
         val navBackStackEntry: NavBackStackEntry? = navController.getBackStackEntry(R.id.playFragment)
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
