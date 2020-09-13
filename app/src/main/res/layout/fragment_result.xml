@@ -31,17 +31,18 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:fillViewport="true"
             android:orientation="vertical"
-            app:showJsonResponse="@{viewModel.response}">
+            app:showJsonResponse="@{viewModel.response}"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.yuyh.jsonviewer.library.JsonRecyclerView
                 android:id="@+id/jsonRecyclerViewResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:overScrollMode="ifContentScrolls"
+                android:overScrollMode="never"
                 app:bindJson="@{viewModel.response}"/>
         </HorizontalScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
