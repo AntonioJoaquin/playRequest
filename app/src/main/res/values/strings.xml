@@ -5,6 +5,14 @@
     <string name="points">…</string>
 
 
+    <!-- region main_navigation_graph -->
+
+    <string name="play_fragment_label">PlayRequest</string>
+    <string name="result_fragment_label">RequestResult</string>
+
+    <!-- endregion main_navigation_graph -->
+
+
     <!-- region PlayFragment -->
 
     <string name="hint_write_request">Write your request!</string>
@@ -18,7 +26,7 @@
     <string name="dialog_key_required">Item key is required</string>
     <string name="dialog_value_required">Item value is required</string>
 
-    <!-- endregion -->
+    <!-- endregion PlayFragment -->
 
 
     <!-- region HeaderDialog -->
@@ -26,7 +34,7 @@
     <string name="hint_header_key">Header Key</string>
     <string name="hint_header_value">Header Value</string>
 
-    <!-- endregion -->
+    <!-- endregion HeaderDialog -->
 
 
     <!-- region ParameterDialog -->
@@ -34,13 +42,13 @@
     <string name="hint_parameter_key">Parameter Key</string>
     <string name="hint_parameter_value">Parameter Value</string>
 
-    <!-- endregion -->
+    <!-- endregion ParameterDialog -->
 
 
     <!-- region LoadingDialog -->
 
     <string name="text_loading">Loading</string>
 
-    <!-- endregion -->
+    <!-- endregion LoadingDialog -->
 
 </resources>

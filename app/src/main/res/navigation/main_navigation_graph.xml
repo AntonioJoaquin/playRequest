@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/playFragment"
         android:name="com.arjhox.develop.playrequest.ui.main.play.PlayFragment"
-        android:label="play_fragment"
+        android:label="@string/play_fragment_label"
         tools:layout="@layout/fragment_play" >
 
         <action
@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.arjhox.develop.playrequest.ui.result.view.ResultFragment"
-        android:label="result_fragment"
+        android:label="@string/result_fragment_label"
         tools:layout="@layout/fragment_result">
 
         <argument
