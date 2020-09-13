@@ -56,17 +56,14 @@ dependencies {
 
     implementation appLibs.values()
 
-
     testImplementation 'junit:junit:4.12'
     testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation('org.koin:koin-test:2.1.6', {
         exclude group: 'org.jetbrains.kotlin'
         exclude group: 'org.mockito'
     })
-
     testImplementation testLibs.values()
     testImplementation appTestLibs.values()
-
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -74,10 +71,11 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
         exclude group: 'org.mockito'
     })
-
     androidTestImplementation testLibs.values()
 
-
     debugImplementation "androidx.fragment:fragment-testing:1.2.5"
+
+    // Repository INFO : https://github.com/smuyyh/JsonViewer
+    implementation "com.yuyh.json:jsonviewer:1.0.6"
 
 }

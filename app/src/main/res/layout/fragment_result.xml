@@ -21,11 +21,28 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="16dp"
-            android:text="@{viewModel.response}"
+            app:setResponse="@{viewModel.response}"
+            app:showResponse="@{viewModel.response}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Request response" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            app:showJsonResponse="@{viewModel.response}">
+
+            <com.yuyh.jsonviewer.library.JsonRecyclerView
+                android:id="@+id/jsonRecyclerViewResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:overScrollMode="ifContentScrolls"
+                app:bindJson="@{viewModel.response}"/>
+        </HorizontalScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
